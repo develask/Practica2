@@ -23,7 +23,7 @@
 \pagenumbering{roman}
 \title{Pr\'actica 2}
 
-\author{Mikel de Velasco, Ieltzu Irazu, Mª In\'es Fernandez}
+\author{Mikel de Velasco, Ieltzu Irazu, Mï¿½ In\'es Fernandez}
 \date{\today}
 \maketitle
 
@@ -32,26 +32,42 @@
 %\end{abstract}
 
 
-\section{Planteamiento}
+\section{Introducci\'on}
 
-Se pide diseñar un clasificador que implemente el m\'etodo k-NN b\'asico con la distancia de
-Minkowski seg\'un la expresi\'on (\ref{minkowski}) donde {\color[rgb]{1,.5,0} n} representa el n\'umero de atributos empleados para
-caracterizar las muestras.
+Se pide diseÃ±ar un clasificador que implemente el m\'etodo k-NN b\'asico con la distancia de
+Minkowski seg\'un la expresi\'on (\ref{minkowski}) donde {\color[rgb]{1,.5,0} n} representa el n\'umero de atributos empleados para caracterizar las muestras.
 
 \begin{equation}\label{minkowski}
 d(a,b)=\left[\sum_{i=1}^{{\color[rgb]{1,.5,0} n}}|a_{i}-b_{i}|^{\color{magenta} m}\right]^{\frac{1}{\color{magenta} m}}
 \end{equation}
 
-El clasificador permitir\'a seleccionar tanto el n\'umero de vecinos a explorar ({\color{blue} k}) como el par\'ametro {\color{magenta} m} de la expresi\'on (\ref{minkowski}). Elegir el lenguaje de programaci\'on que se considere m?as apropiado para el diseño.
-Para inferir el clasificador se dispone de un conjunto de datos (Diabetes.arff).
+El clasificador permitir\'a seleccionar tanto el n\'umero de vecinos a explorar ({\color{blue} k}) como el par\'ametro {\color{magenta} m} de la expresi\'on (\ref{minkowski}). Elegir el lenguaje de programaci\'on que se considere m\'as apropiado para el diseÃ±o.
+Para inferir el clasificador se dispone de un conjunto de datos (Diabetes.arff). El conjunto de datos dispone de 768 instancias para inferir el modelo. Para describir las instancias se utilizan 8 atributos m\'as la clase. Los atributos son los siguientes:
 
-\section{Algoritmo}
+\begin{itemize}
+\item Number of times pregnant
+\item Plasma glucose concentration a 2 hours in an oral glucose tolerance test
+\item Diastolic blood pressure 
+\item Triceps skin fold thickness 
+\item 2-Hour serum insulin 
+\item Body mass index 
+\item Diabetes pedigree function
+\item Age 
+\item Class variable 
+\end{itemize}
 
-\section{Diseño de software}
+La clase que hay que determinar es si el paciente tiene diabetes o no.
+    
+\section{Metodolog\'ia}
 
-\section{Implementaci\'on de software}
+En este apartado desarrollaremos nuestro propio algoritmo K-Nearest Neighbors y describiremos el diseÃ±o y como hemos implementado este algoritmo. Adem\'as haremos una breve descripci\'on de como hacer funcionar el programa.
 
-\section{Validaci\'on de software}
+
+\section{Resultados}
+
+\section{Conclusiones}
+
+\section{Valoraci\on Subjetiva}
 \subsection{Par\'ametro {\color{blue}k}}
 \subsection{Par\'ametro {\color{magenta}m}}
 
