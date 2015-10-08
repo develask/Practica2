@@ -1,0 +1,65 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[margin=0.5in]{geometry}
+\usepackage{amsthm}
+%\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{array}
+\usepackage[round]{natbib}
+\usepackage{array}
+\theoremstyle{plain}
+\usepackage{color}
+\newtheorem{theo}{Theorem}
+\newtheorem{defn}{Definition}
+
+% Redefinimos la funcion \today para ponerla en castellano
+\def\today{\number\day~de\space\ifcase\month\or 
+  enero\or febrero\or marzo\or abril\or mayo\or junio\or 
+  julio\or agosto\or septiembre\or octubre\or noviembre\or diciembre\fi 
+  \space de~\number\year}
+  
+\begin{document}
+\author{Mikel de Velasco}
+\pagenumbering{roman}
+\title{Pr\'actica 2}
+
+\author{Mikel de Velasco, Ieltzu Irazu, Mª In\'es Fernandez}
+\date{\today}
+\maketitle
+
+%\begin{abstract}
+%In this manuscript, we study the Boltzmann distribution associated to the linear ordering problem. Particularly, we demonstrate that this distribution is L-decomposable. Moreover, we investigate towards an efficient sampling method of the Boltzmann distribution.
+%\end{abstract}
+
+
+\section{Planteamiento}
+
+Se pide diseñar un clasificador que implemente el m\'etodo k-NN b\'asico con la distancia de
+Minkowski seg\'un la expresi\'on (\ref{minkowski}) donde {\color[rgb]{1,.5,0} n} representa el n\'umero de atributos empleados para
+caracterizar las muestras.
+
+\begin{equation}\label{minkowski}
+d(a,b)=\left[\sum_{i=1}^{{\color[rgb]{1,.5,0} n}}|a_{i}-b_{i}|^{\color{magenta} m}\right]^{\frac{1}{\color{magenta} m}}
+\end{equation}
+
+El clasificador permitir\'a seleccionar tanto el n\'umero de vecinos a explorar ({\color{blue} k}) como el par\'ametro {\color{magenta} m} de la expresi\'on (\ref{minkowski}). Elegir el lenguaje de programaci\'on que se considere m?as apropiado para el diseño.
+Para inferir el clasificador se dispone de un conjunto de datos (Diabetes.arff).
+
+\section{Algoritmo}
+
+\section{Diseño de software}
+
+\section{Implementaci\'on de software}
+
+\section{Validaci\'on de software}
+\subsection{Par\'ametro {\color{blue}k}}
+\subsection{Par\'ametro {\color{magenta}m}}
+
+\section*{Acknowledgements}
+Thank you every one!
+
+\bibliographystyle{plainnat}
+\bibliography{./bibliography.bib}
+
+\end{document}
+
