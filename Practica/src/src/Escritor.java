@@ -89,7 +89,7 @@ public class Escritor {
 		}
 	}
 
-	public void hacerFicheroNuestroModelo(String path, Evaluation evaluator, NuestroModelo estimador, String kMaxEzExhaustiboa, String tipoEstimacion,boolean nuevo){
+	public void hacerFicheroNuestroModelo(String path, Evaluation evaluator, NuestroModelo estimador, int knnEzExhaustiboanuestro, String tipoEstimacion,boolean nuevo){
 	
 		try {
 			double precision= evaluator.weightedPrecision();			
@@ -111,7 +111,7 @@ public class Escritor {
 				fw.write("Revision: " + estimador.getRevision()+"\n");
 				fw.write("Training Times: " + estimador.getNumTraining()+"\n");
 				fw.write("Nearest Neighbour Searh Algorithm: " + estimador.getNearestNeighbourSearchAlgorithm()+"\n");
-				fw.write("K Maximoa ez Exhaustiboarekin: " + kMaxEzExhaustiboa+"\n");
+				fw.write("K Maximoa ez Exhaustiboarekin: " + knnEzExhaustiboanuestro+"\n");
 				fw.write("Precision Batazbestekoa: " + precision+"\n");
 				fw.write("Recall Batazbestekoa: " + recall+"\n");
 				fw.write("ROC Area Batazbestekoa: " + roc+"\n");
@@ -128,7 +128,7 @@ public class Escritor {
 		} catch (IOException e) {
 			File f = new File(path);
 			f.mkdirs();
-			hacerFicheroNuestroModelo(path, evaluator, estimador, kMaxEzExhaustiboa, tipoEstimacion, nuevo);
+			hacerFicheroNuestroModelo(path, evaluator, estimador, knnEzExhaustiboanuestro, tipoEstimacion, nuevo);
 		}
 		} catch (Exception e1) {
 			e1.printStackTrace();

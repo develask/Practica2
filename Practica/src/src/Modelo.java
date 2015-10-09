@@ -164,144 +164,144 @@ public class Modelo {
 	    System.out.println("Modelo IBk escrito");
 		
 		// NuestroModelo
-		NuestroModelo estimadorNuestro = new NuestroModelo();
+		NuestroModelo nuestroEstimador = new NuestroModelo();
 		
+		//Distancias
+		ArrayList<SelectedTag> distancias= new ArrayList<SelectedTag>();
+		//NeighbourSearch	
+		ArrayList<NearestNeighbourSearch> vecinos= new ArrayList<NearestNeighbourSearch>();
+	               
+		System.out.println("Trabajando...");
+		prepararArrayNuestro(nuestroEstimador, distancias,vecinos);
 		
-		double fmeasureMediaMulti=0;
-		double fmeasureMediaMaxMulti=0;
-		double rateMax = 0.0;
-		double momentumMax = 0.2;
-		int trainingtimemax = 0;
-		boolean decaymax = false;
-		
-		//HIDDEN LAYERS AUKERAK A, I , O , T DIRENEZ, array batean gorde
-		ArrayList<String> hiddenlayers= new ArrayList<String>();
-		hiddenlayers.add("a");
-		hiddenlayers.add("i");
-		hiddenlayers.add("o");
-		hiddenlayers.add("t");
-        String hiddenlayersMax= "";
-        estimadorMulti.setAutoBuild(true); // hidden layers
-        
-        //Aurreprozesatzailean egiten direlako.
-        estimadorMulti.setNominalToBinaryFilter(false);
-        estimadorMulti.setNormalizeAttributes(false);
-        estimadorMulti.setNormalizeNumericClass(false);
-        
-        //estimadorMulti.setGUI(true);
-		for (int i=0;i<hiddenlayers.size();i++){
-			//hidden layer egokiena aukeratzeko loopa, f-measure altuenaren bila.
-			estimadorMulti.setHiddenLayers(hiddenlayers.get(i));
-			for (double rate = 0.2; rate<=1; rate+=0.2){
-				estimadorMulti.setLearningRate(rate);
-				for(double momentum = 0.2; momentum<=1; momentum+=0.2){
-					estimadorMulti.setMomentum(momentum);
-					for (int trainingtime = 5; trainingtime < 50; trainingtime+=5){
-						estimadorMulti.setTrainingTime(trainingtime);
-						for (int decay = 0; decay < 2; decay++) {
-							estimadorMulti.setDecay(decay<1);
-							System.out.println("##############\nhiddenlayers:"+i+"\nrate:"+rate+"\nmomentum:"+momentum+"\ntrainigtime:"+trainingtime+"\nDecay:"+decay);
-							try{
-								evaluator = new Evaluation(trainaurre);
-								estimadorMulti.buildClassifier(trainaurre);
-								evaluator.evaluateModel(estimadorMulti, devaurre);
-								// klase minoritariaren fmeasurearekin konparatu
-								fmeasureMediaMulti = evaluator.fMeasure(minorityclassindex(trainetadev));
-								evaluator.errorRate();
-								if(evaluator.errorRate()<errorratemax){
-									errorratemax = evaluator.errorRate();
-									hiddenlayersMax =  hiddenlayers.get(i);
-									rateMax = rate;
-									momentumMax=momentum;
-									trainingtimemax= trainingtime;
-									decaymax=(decay<1);
-									
-								}
-								if(fmeasureMediaMulti>fmeasureMediaMaxMulti){
-									fmeasureMediaMaxMulti = fmeasureMediaMulti;
-									hiddenlayersMax =  hiddenlayers.get(i);
-									rateMax = rate;
-									momentumMax=momentum;
-									trainingtimemax= trainingtime;
-									decaymax=(decay<1);
-									
-								}
-							} catch (Exception e) {
-								e.printStackTrace(); System.exit(1);
-							}
+		double fmeasureMedianuestro=0;
+		double fmeasureMediaMaxnuestro=0;            
+	    int metodoNeighbourmaxnuestro=0; 
+	    int distancemaxnuestro=0;
+	    int kMaxnuestro=0;
+	                	
+		for (int j=1;j<=preTrain.numInstances();j++){   //K-NN  loop
+			nuestroEstimador.setKNN(j);
+			//NeighbourSearchAlgorithm loop
+			for (int z=0; z<neighbours.size();z++){
+				nuestroEstimador.setNearestNeighbourSearchAlgorithm(vecinos.get(z));
+				// Distance desberdinen loop-a
+				for (int x=0;x<distancias.size();x++){
+					nuestroEstimador.setDistanceWeighting(distancias.get(x));	
+					try {
+						nuestroEstimador.buildClassifier(preTrain);
+						//Inicializar evaluador
+						evaluator = new Evaluation(preTrain);
+				
+						evaluator.evaluateModel(estimador, preDev);
+						//klase minoritariaren f-measurearekin konparatuz.
+						fmeasureMedianuestro = evaluator.weightedFMeasure();
+						if(fmeasureMedianuestro>fmeasureMediaMaxnuestro){
+							kMaxnuestro=j;
+							metodoNeighbourmaxnuestro=z;
+							distancemaxnuestro=x;
+							fmeasureMediaMaxnuestro=fmeasureMedianuestro;
 						}
+					}catch(Exception e){
+						e.printStackTrace(); System.exit(1);
 					}
 				}
 			}
-		}
-		CVParameterSelection bilaketaEzExhaustiboaNuestro = new CVParameterSelection();
-		bilaketaEzExhaustiboaNuestro.setClassifier((Classifier) estimadorNuestro);
-		try{
-			bilaketaEzExhaustiboaNuestro.buildClassifier(preTrain);
+       }
+	        
+	   // hacer busqueda no exhaustiba
+		
+		CVParameterSelection BusquedaNoExhaustibaNuestro = new CVParameterSelection();
+		BusquedaNoExhaustiba.setClassifier(nuestroEstimador);
+		try {
+			BusquedaNoExhaustibaNuestro.setNumFolds(5);
+			BusquedaNoExhaustibaNuestro.addCVParameter("K 1 "+preTrain.numInstances()+" " +preTrain.numInstances());
+			BusquedaNoExhaustibaNuestro.buildClassifier(preTrain);
 		} catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
-		MultilayerPerceptron clasiNuestro = (MultilayerPerceptron)bilaketaEzExhaustiboaNuestro.getClassifier();
-	    String hiddenLayerEzexhaustiboa= clasiNuestro.getHiddenLayers();
-	    System.out.println("MultiLayer Perceptron prozesuaren emaitzak imprimatzen:");
-	
+		IBk clasificadornuestro = (IBk)BusquedaNoExhaustibaNuestro.getClassifier();
+	    int knnEzExhaustiboanuestro= clasificadornuestro.getKNN();    
+		
 	    //Inferentzia
 	    
-	    estimadorNuestro.setDistanceWeighting();
-		estimadorNuestro.setNearestNeighbourSearchAlgorithm();
-		estimadorNuestro.setKNN();
+	    nuestroEstimador.setDistanceWeighting(distancias.get(distancemaxnuestro));
+	    nuestroEstimador.setNearestNeighbourSearchAlgorithm(vecinos.get(metodoNeighbourmaxnuestro));
+	    nuestroEstimador.setKNN(kMaxnuestro);
 	    
 	    // No Honesta
 	    try{
 	    	evaluator = new Evaluation(trainydev);
-	    	estimadorNuestro.buildClassifier(trainydev);
-	    	evaluator.evaluateModel(estimadorNuestro, trainydev);
+	    	nuestroEstimador.buildClassifier(trainydev);
+	    	evaluator.evaluateModel(nuestroEstimador, trainydev);
 	    } catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
-	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, estimadorNuestro, hiddenLayerEzexhaustiboa, "No honesta",false);
+	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, nuestroEstimador, knnEzExhaustiboanuestro, "No honesta",false);
 	    System.out.println("No Fair Mp");
 	    // Hold out 70 30
 	    try{
 	    	evaluator = new Evaluation(trainydev70);
-	    	estimadorNuestro.buildClassifier(trainydev70);
-	    	evaluator.evaluateModel(estimadorNuestro, trainydev);
+	    	nuestroEstimador.buildClassifier(trainydev70);
+	    	evaluator.evaluateModel(nuestroEstimador, trainydev);
 	    } catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
 	    
-	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, estimadorNuestro, hiddenLayerEzexhaustiboa, "Hold Out 70 30",true);	    
+	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, nuestroEstimador, knnEzExhaustiboanuestro, "Hold Out 70 30",true);	    
 	    System.out.println("70 30 MP");
 	    // hold out train dev
 	    try{
 	    	evaluator = new Evaluation(preTrain);
-	    	estimadorNuestro.buildClassifier(preTrain);
-	    	evaluator.evaluateModel(estimadorNuestro, preDev);
+	    	nuestroEstimador.buildClassifier(preTrain);
+	    	evaluator.evaluateModel(nuestroEstimador, preDev);
 	    } catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
-	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, estimadorNuestro, hiddenLayerEzexhaustiboa, "Hold Out train dev",true);	    
+	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt", evaluator, nuestroEstimador, knnEzExhaustiboanuestro, "Hold Out train dev",true);	    
 	    System.out.println("HoldOut MP");
 	    // 10 Fold cross validation
 	    try{
 	    	evaluator = new Evaluation(trainydev);
-	    	estimadorNuestro.buildClassifier(trainydev);
-	    	evaluator.crossValidateModel(estimadorNuestro, trainydev, 10, new Random(1));
+	    	nuestroEstimador.buildClassifier(trainydev);
+	    	evaluator.crossValidateModel(nuestroEstimador, trainydev, 10, new Random(1));
 	    } catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
 	    System.out.println("10 fold X validation MP");
 	    
-	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationMultilayerPerceptron.txt", evaluator, estimadorNuestro, hiddenLayerEzexhaustiboa, "10 Fold cross",true);
+	    Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationMultilayerPerceptron.txt", evaluator, nuestroEstimador, knnEzExhaustiboanuestro, "10 Fold cross",true);
 		
 	    // Hacer el Modelo
-	    Escritor.getEscritor().escribirModelo("modelos/NuestroModeloModel.model", estimadorNuestro);
+	    Escritor.getEscritor().escribirModelo("modelos/NuestroModeloModel.model", nuestroEstimador);
 	    System.out.println("Escrito nuestro modelo");
 	    
 	    
 		
 	}
 	
+	private static void prepararArrayNuestro(NuestroModelo nuestroEstimador,
+			ArrayList<SelectedTag> distancias,
+			ArrayList<NearestNeighbourSearch> vecinos) {
+		//Distance
+		for(int a=1;a<IBk.TAGS_WEIGHTING.length;a++){
+			SelectedTag s= new SelectedTag(a,IBk.TAGS_WEIGHTING);
+			distancias.add(s);
+		}
+		//Neighbour
+		BallTree balltree= new BallTree();
+		KDTree kdtree= new KDTree();
+		LinearNNSearch linearNNSearch= new LinearNNSearch();
+		CoverTree covertree= new CoverTree();
+                
+                
+		vecinos.add(balltree);
+		vecinos.add(kdtree);
+		vecinos.add(linearNNSearch);
+		vecinos.add(covertree);
+		
+	}
+
 	private static int minorityclassindex(Instances i){
 		int kont [] = new int [i.numClasses()];
 		for (int j : kont) {

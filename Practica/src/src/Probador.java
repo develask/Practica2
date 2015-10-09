@@ -15,7 +15,7 @@ public class Probador {
 	public static void main(String[] args) {
 		//Lehenengo datuak prosezatuko ditugu.
 		String[] params = new String [5];
-		 params[0] = "ficheros/segment-train.arff"; 
+		 params[0] = "ficheros/diabetes.arff"; 
 		 params[1] = "ficheros/preTrain.arff";
 		 params[2] = "ficheros/preDev.arff";
 		 params[3] = "30";
@@ -29,12 +29,12 @@ public class Probador {
 		 //Primero el IBk
 		 String[] paramsS = new String [3];
 		 paramsS[0] = "modelos/IBkModel.model";
-		 paramsS[1] = "ficheros/segment-test.arff";
+		 paramsS[1] = "ficheros/falta.arff";
 		 paramsS[2] = "ficheros/TestPredictionsIBk.arff";
 		 Clasificador.main(paramsS);
 		//Ahora NuestroModelo
 		 paramsS[0] = "modelos/NuestroModeloModel.model";
-		 paramsS[1] = "ficheros/test.p3.obfuscated.noclass.arff";
+		 paramsS[1] = "ficheros/falta.arff";
 		 paramsS[2] = "ficheros/TestPredictionsNuestroModelo.arff";
 		 Clasificador.main(paramsS);
 		 /*File output= new File("test.eval");
