@@ -180,7 +180,11 @@ public class NuestroModelo extends AbstractClassifier implements OptionHandler, 
 
 	@Override
 	public void updateClassifier(Instance arg0) throws Exception {
-	     if (Train.equalHeaders(arg0.dataset()) == false) {
+	 //cambiar; pasar a codigo el pseudocogido, y evaluarlo en el build classifier desde
+		// nuestro algoritmo y no desde el IBk
+		
+		
+		if (Train.equalHeaders(arg0.dataset()) == false) {
 	       throw new Exception("Incompatible instance types\n" + Train.equalHeadersMsg(arg0.dataset()));
 	     }
 	     if (arg0.classIsMissing()) {

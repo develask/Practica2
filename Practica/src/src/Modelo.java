@@ -193,7 +193,7 @@ public class Modelo {
 						//Inicializar evaluador
 						evaluator = new Evaluation(preTrain);
 				
-						evaluator.evaluateModel(estimador, preDev);
+						evaluator.evaluateModel(nuestroEstimador, preDev);
 						//klase minoritariaren f-measurearekin konparatuz.
 						fmeasureMedianuestro = evaluator.weightedFMeasure();
 						if(fmeasureMedianuestro>fmeasureMediaMaxnuestro){

@@ -57,22 +57,53 @@ Para inferir el clasificador se dispone de un conjunto de datos (Diabetes.arff).
 \end{itemize}
 
 La clase que hay que determinar es si el paciente tiene diabetes o no.
+
+\subsection{Par\'ametro {\color{blue}k}}
+
+El parametro K es el parametro que utilizaremos para indicar cuantos vecinos vamos a usar para evaluar el clasificador.
+
+\subsection{Par\'ametro {\color{magenta}m}}
+
+El parametro m sera el parametro que utilizaremos para saber que distancia tenemos que utilizar para evaluar nuestro clasificador.
     
 \section{Metodolog\'ia}
 
 En este apartado desarrollaremos nuestro propio algoritmo K-Nearest Neighbors y describiremos el diseño y como hemos implementado este algoritmo. Adem\'as haremos una breve descripci\'on de como hacer funcionar el programa.
 
+El algoritmo que hemos desarrollado es basicamente una adaptacion del clasificador IBk ya que hemos cogido su codigo y le hemos cambiado la forma de estimar que estaban utilizando. 
+
+
+Nuestro programa puede ser ejecutado desde eclipse de una manera muy facil. Si ejecutas el Probador.java conseguiras una ejecucion total del programa y obtendras los resultados en la carpeta de ficheros. Por otro lado, también se pueden ejecutar de forma individual. Se diferenciarian 3 ejecuciones diferentes. Preprocesador.java nos sirve para quitar todo lo malo que venga en los datos(Extreme values, outliers,...).
+
+	Como parametros de entrada tendremos los siguientes
+
+Después ejecutariamos Modelo.java y con ello conseguiriamos obtener los dos modelos de los que estamos tratando en la practica. 
+
+	Como parametros de entrada tendremos los siguientes
+
+
+Por ultimo, ejecutariamos el Clasificador.java y con ello conseguiriamos los resultados que necesitamos para comparar los modelos anteriores. 
+
+	Como parametros de entrada tendremos los siguientes
+
 
 \section{Resultados}
 
+En esta seccion mostraremos los resultados que hemos obtenido de las ejecuciones anteriores
+
 \section{Conclusiones}
 
-\section{Valoraci\on Subjetiva}
-\subsection{Par\'ametro {\color{blue}k}}
-\subsection{Par\'ametro {\color{magenta}m}}
+Realizar un clasificador desde cero ha sido una tarea complicada a que nos hemos basado en el modelo del IBk, y le hemos ajustado el pseudocodigo que teniamos. Ha sido una tarea entretenida y muy din\'amica pero muy costosa. Como conclusi\'on tenemos que decir que no merece la pena crear un modelo propio habiendo ya el IBk.   
 
-\section*{Acknowledgements}
-Thank you every one!
+\section{Valoraci\on Subjetiva}
+
+Ieltzu: Personalmente ha sido una tarea que no me ha gustado mucho. He visto inecesaria la practica y para lo unico que me ha servido es para darme cuenta de lo dificil que es implementar un clasificador propio. 
+
+Mikel:
+
+Maria:
+
+
 
 \bibliographystyle{plainnat}
 \bibliography{./bibliography.bib}
