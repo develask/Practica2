@@ -49,7 +49,7 @@ public class NuestroModelo {
      * 2- Distancia media
      * 3- Distancia Minima
      * 4- Pesado de casos seleccionados
-     * 5- Pesado de variables
+     * 5- Pesado de variable sadfasdfsaf
      * */
 	public NuestroModelo(){
 	    this.setKNN(1);
