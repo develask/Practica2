@@ -279,7 +279,7 @@ public class Modelo {
 	    
 		
 	}
-	
+	/*
 	private static void prepararArrayNuestro(NuestroModelo nuestroEstimador,
 			ArrayList<SelectedTag> distancias,
 			ArrayList<NearestNeighbourSearch> vecinos) {
@@ -301,7 +301,7 @@ public class Modelo {
 		vecinos.add(covertree);
 		
 	}
-
+*/
 	private static int minorityclassindex(Instances i){
 		int kont [] = new int [i.numClasses()];
 		for (int j : kont) {
