@@ -33,10 +33,10 @@ public class Probador {
 		 paramsS[2] = "ficheros/TestPredictionsIBk.arff";
 		 Clasificador.main(paramsS);
 		//Ahora NuestroModelo
-		 paramsS[0] = "modelos/NuestroModeloModel.model";
-		 paramsS[1] = "ficheros/falta.arff";
-		 paramsS[2] = "ficheros/TestPredictionsNuestroModelo.arff";
-		 Clasificador.main(paramsS);
+		// paramsS[0] = "modelos/NuestroModeloModel.model";
+		//paramsS[1] = "ficheros/falta.arff";
+		// paramsS[2] = "ficheros/TestPredictionsNuestroModelo.arff";
+		// Clasificador.main(paramsS);
 		 /*File output= new File("test.eval");
 		 FileWriter fw = null;
 		try {

@@ -162,7 +162,7 @@ public class Modelo {
 	    Escritor.getEscritor().escribirModelo("modelos/IBkModel.model", estimador);
 	    
 	    System.out.println("Modelo IBk escrito");
-		
+		/*
 		// NuestroModelo
 		NuestroModelo nuestroEstimador = new NuestroModelo();
 		
@@ -208,7 +208,7 @@ public class Modelo {
 				}
 			}
        }
-	        
+	     
 	   // hacer busqueda no exhaustiba
 		
 		CVParameterSelection BusquedaNoExhaustibaNuestro = new CVParameterSelection();
@@ -275,7 +275,7 @@ public class Modelo {
 	    // Hacer el Modelo
 	    Escritor.getEscritor().escribirModelo("modelos/NuestroModeloModel.model", nuestroEstimador);
 	    System.out.println("Escrito nuestro modelo");
-	    
+	   */ 
 	    
 		
 	}
