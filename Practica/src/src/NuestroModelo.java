@@ -31,7 +31,7 @@ import java.util.Vector;
 
 public class NuestroModelo { 
 	
-	private ArrayList<Float> lista = new ArrayList<Float>();
+	private ArrayList<Double> lista = new ArrayList<Double>();
 	//no he encontrado ninguna forma de enlazar una distancia y una instancia, hay que mirarlo.
     protected int kNN;
     /**
@@ -51,7 +51,7 @@ public class NuestroModelo {
      * 4- Pesado de casos seleccionados
      * 5- Pesado de variables
      * */
-	public NuestroModelo(int k){
+	public NuestroModelo(){
 	    this.setKNN(1);
 	    this.setDistanceWeighting(1);
 	    this.setNearestNeighbourSearchAlgorithm(1);
@@ -84,6 +84,7 @@ public class NuestroModelo {
   
 	public void prepararInstancias(Instances instancias, Instance instancia){
 		double distancia=0.00;
+		lista = new ArrayList<Double>();
 		for(int j=1;j<=instancias.numInstances();j++){
 			distancia=this.calcularDistancia(instancias.get(j),instancia);
 			lista.add(distancia);

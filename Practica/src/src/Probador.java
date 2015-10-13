@@ -8,6 +8,7 @@ import weka.classifiers.Evaluation;
 import weka.classifiers.functions.MultilayerPerceptron;
 import weka.classifiers.lazy.IBk;
 import weka.classifiers.rules.OneR;
+import weka.core.Instance;
 import weka.core.Instances;
 
 public class Probador {
@@ -33,44 +34,16 @@ public class Probador {
 		 paramsS[2] = "ficheros/TestPredictionsIBk.arff";
 		 Clasificador.main(paramsS);
 		//Ahora NuestroModelo
-		// paramsS[0] = "modelos/NuestroModeloModel.model";
-		//paramsS[1] = "ficheros/falta.arff";
-		// paramsS[2] = "ficheros/TestPredictionsNuestroModelo.arff";
-		// Clasificador.main(paramsS);
-		 /*File output= new File("test.eval");
-		 FileWriter fw = null;
-		try {
-			fw = new FileWriter(output);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		 Instances instancias = Lector.getLector().leerInstancias("ficheros/segment-test.arff");
+		 NuestroModelo nm= new NuestroModelo();
 		 
-		 try {
-			Evaluation evaluation = new Evaluation(instancias);
-			
-			IBk ib = (IBk) Lector.getLector().cargarModelo("modelos/IBkModel.model");
-			NuestroModelo nuestro = (NuestroModelo) Lector.getLector().cargarModelo("modelos/NuestroModeloModel.model");
-			
-			evaluation.evaluateModel(ib, instancias);
-			
-			fw.append("Confusion Matrix :"+evaluation.toMatrixString()+"");
-			fw.append(evaluation.toClassDetailsString());
-			
-			evaluation.evaluateModel(nuestro, instancias);
-			
-			fw.append("Confusion Matrix :"+evaluation.toMatrixString()+"");
-			fw.append(evaluation.toClassDetailsString());
-			
-			
-			fw.close();
-		 } catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		 Instances instancias = Lector.getLector().leerInstancias("ficheros/diabetes.arff");
+		 Instances instanciasnoclasificadas = Lector.getLector().leerInstancias("ficheros/falta.arff");
+		 for (Instance instancia : instanciasnoclasificadas) {
+			 nm.prepararInstancias(instancias, instancia);
+			 nm.clasificarInstancia(instancia);
+		 }
+		 // aqui faltaria coger las verdaderas y falsas y sacar TPR FPR manualmente y luego comparar.
 		 
-		 */
 	}
 
 }
