@@ -32,18 +32,17 @@ public class NuestroModelo {
      * */
 	protected int NNSearch;
 	
+	private int tP;
+	private int tN;
+	private int fP;
+	private int fN;
+	
 	/**
 	 * Constructor para crear el modelo KNN.
 	 * @param KNN numero de vecionos a analizar. [1:]
 	 * @param distance Tipo de distancia a analizar: [(1: Manhattan), (2: Euclídea), (3: Minkowski)]
 	 * @param searchAlgoritm Algoritmo de busqueda: [1:5]
 	 */
-	private int tP;
-	private int tN;
-	private int fP;
-	private int fN;
-	
-	
 	public NuestroModelo(int KNN, int distance, int searchAlgoritm){
 	    this.setKNN(KNN);
 	    this.setDistanceWeighting(distance);
