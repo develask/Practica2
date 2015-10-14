@@ -4,7 +4,7 @@ public class Minkowski implements Distance{
 
 	private double[] a;
 	private int pos = 0;
-	private int p = 2; // no se que es esto
+	private int p = 3; // no se que es esto
 	
 	public Minkowski(int numberOfAttr) {
 		this.a = new double[numberOfAttr];

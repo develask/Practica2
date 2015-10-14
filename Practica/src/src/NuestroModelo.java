@@ -32,6 +32,7 @@ public class NuestroModelo {
      * */
 	protected int NNSearch;
 	
+	
 	private int tP;
 	private int tN;
 	private int fP;
@@ -84,6 +85,7 @@ public class NuestroModelo {
 	public void prepararInstancias(Instances instancias, Instance instancia){
 		double distancia = 0.00;
 		double[][] lista = new double[instancias.numInstances()][2];
+		
 		//primera linea referencia instancia; segunda linea distancia
 		for(int j=1;j<=instancias.numInstances();j++){
 			distancia=this.calcularDistancia(instancias.get(j),instancia);
