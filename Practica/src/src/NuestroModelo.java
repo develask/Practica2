@@ -1,7 +1,9 @@
 package src;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 
 import distance.*;
 import weka.core.Instance;
@@ -82,14 +84,20 @@ public class NuestroModelo {
   
 	public void prepararInstancias(Instances instancias, Instance instancia){
 		double distancia = 0.00;
-		double[][] lista = new double[2][instancias.numInstances()];
+		double[][] lista = new double[instancias.numInstances()][2];
 		//primera linea referencia instancia; segunda linea distancia
 		for(int j=1;j<=instancias.numInstances();j++){
 			distancia=this.calcularDistancia(instancias.get(j),instancia);
-			lista[0][j]=j;
-			lista[1][j]=distancia;
+			lista[j][0]=j;
+			lista[j][1]=distancia;
 		}
-		Collections.sort(lista);
+		Collections.sort(Arrays.asList(lista), new Comparator<double[]>() {
+
+			@Override
+			public int compare(double[] o1, double[] o2) {
+				return Double.compare(o1[1], o2[1]);
+			}
+		});
 	}
 	public void crearMatrixConfusion(Instances noclasf, Instances clasf){
 		// 1 sera t 0 sera f
@@ -107,7 +115,7 @@ public class NuestroModelo {
 			}
 		}
 		
-		System.out.println("Matríz realizada con éxito");
+		System.out.println("Matrï¿½z realizada con ï¿½xito");
 	}
 	
 	public void calcularMediciones(){
