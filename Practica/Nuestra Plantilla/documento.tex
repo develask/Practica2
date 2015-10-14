@@ -60,11 +60,35 @@ La clase que hay que determinar es si el paciente tiene diabetes o no.
 
 \subsection{Par\'ametro {\color{blue}k}}
 
-El parametro K es el parametro que utilizaremos para indicar cuantos vecinos vamos a usar para evaluar el clasificador.
+El parametro {\color{blue}k} es el parametro que utilizaremos para indicar cuantos vecinos vamos a usar para evaluar el clasificador.
 
 \subsection{Par\'ametro {\color{magenta}m}}
 
-El parametro m sera el parametro que utilizaremos para saber que distancia tenemos que utilizar para evaluar nuestro clasificador.
+El parametro {\color{magenta}m} sera el parametro que utilizaremos para saber que distancia tenemos que utilizar para evaluar nuestro clasificador.
+En esta pr\'actica hemos implementado 3 distintas distancias:
+\begin{enumerate}
+    \item Distancia de \textbf{Manhattan}:
+    	
+	La distanciade Manhattan (\ref{manhattan}), entre dos vectores ${\mathbf{x}}$, ${\mathbf{y}}$ en un espacio vectorial real n-dimensional con un sistema de Coordenadas cartesianas fijo es la suma de las longitudes de las proyecciones del segmento de línea entre los puntos sobre el sistema de ejes coordenados.
+
+	\begin{equation}\label{manhattan}
+	d(\mathbf{x},\mathbf{y})=\sum_{i=1}^{n}|x_{i}-y_{i}|
+	\end{equation}
+	
+	Donde ${n}$ es el n\'umero de dimensiones.
+    
+    \item Distancia \textbf{Eucl\'idea}: 
+    
+    Un espacio eucl\'ideo es un espacio vectorial normado sobre los números reales de dimensión finita, en que la norma es la asociada al producto escalar ordinario. Para cada número entero no negativo n, el espacio eucl\'ideo n-dimensional se representa por el símbolo ${\mathbb{R}^{n}}$ y es el conjunto de todas las tuplas ordenadas ${(x_1,x_2,\ldots,x_n)}$ en donde cada ${x_i}$ es un n\'umero real, junto con la función distancia entre dos puntos ${(x1, \ldots, x_n) e (y1, \ldots, y_n)}$ definida por la fórmula:
+    
+    \begin{equation}\label{euclidea}
+    d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\| = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}
+    \end{equation}
+    
+    Esta funci\'on distancia es una generalizaci\'on del teorema de Pit\'agoras y se denomina Distancia euclidiana (\ref{euclidea}).
+    
+    \item Distancia de \textbf{Minkowski}:
+\end{enumerate}
     
 \section{Metodolog\'ia}
 
@@ -96,12 +120,13 @@ En esta seccion mostraremos los resultados que hemos obtenido de las ejecuciones
 Realizar un clasificador desde cero ha sido una tarea complicada a que nos hemos basado en el modelo del IBk, y le hemos ajustado el pseudoc\'odigo que ten\'iamos. Ha sido una tarea entretenida y muy din\'amica pero muy costosa. Como conclusi\'on tenemos que decir que no merece la pena crear un modelo propio habiendo ya el IBk.   
 
 \section{Valoraci\'on Subjetiva}
+Una vez finalizado todo el proyecto, cada uno hemos echo una valoraci\'on de todo lo que ha supuesto el proyecto individualmente.
 
-Ieltzu: Personalmente ha sido una tarea que no me ha gustado mucho. He visto inecesaria la practica y para lo \'unico que me ha servido es para darme cuenta de lo dif\'icil que es implementar un clasificador propio. 
+\textbf{Ieltzu:} Personalmente ha sido una tarea que no me ha gustado mucho. He visto inecesaria la practica y para lo \'unico que me ha servido es para darme cuenta de lo dif\'icil que es implementar un clasificador propio. 
 
-Mikel:
+\textbf{Mikel:} Bajo mi prespect\'iva, esta pr\'actica, ha ayudado a comprender como funciona el algoritmo k-NN con los diferentes p\'arametros pasados. Sabiendo que alcanzar la eficiencia del algoritmo ya implementado por weka es dif\'icil (ya que este ha sido testeado y comprobado por numerosos investigadores) es un buen método para aprender a utilizar herramientas que est\'an bien testeadas ademas de comprender por dentro como funcionan dichas herramientas intentando implementarlas nosotros.
 
-Maria:
+\textbf{Maria:}
 
 
 
