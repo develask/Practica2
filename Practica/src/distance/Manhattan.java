@@ -5,11 +5,11 @@ public class Manhattan implements Distance {
 	private int pos = 0;
 	
 	public Manhattan(int numberOfAttr) {
-		a = new double[numberOfAttr];
+		this.a = new double[numberOfAttr];
 	}
 	public double getDistance() {
 		double sum = 0;
-		for (double el: a) sum += el;
+		for (double el: this.a) sum += el;
 		return sum;
 	}
 

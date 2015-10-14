@@ -4,21 +4,22 @@ public class Minkowski implements Distance{
 
 	private double[] a;
 	private int pos = 0;
+	private int p = 2; // no se que es esto
 	
 	public Minkowski(int numberOfAttr) {
-		a = new double[numberOfAttr];
+		this.a = new double[numberOfAttr];
 	}
 	
 	@Override
 	public double getDistance() {
-		// TODO Auto-generated method stub
-		return 0;
+		double sum = 0;
+		for (double el: this.a) sum += el;
+		return Math.pow(sum, 1.0/this.p);
 	}
 
 	@Override
 	public void setAtributeDist(double a, double b) {
-		// TODO Auto-generated method stub
-		
+		this.a[this.pos++] = Math.pow(Math.abs(a-b), this.p);
 	}
 
 }
