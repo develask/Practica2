@@ -33,17 +33,19 @@ public class Probador {
 		 paramsS[1] = "ficheros/falta.arff";
 		 paramsS[2] = "ficheros/TestPredictionsIBk.arff";
 		 Clasificador.main(paramsS);
+		 
 		//Ahora NuestroModelo
-		 NuestroModelo nm= new NuestroModelo();
+		 NuestroModelo nm= new NuestroModelo(1,1,1);
 		 
-		 Instances instancias = Lector.getLector().leerInstancias("ficheros/diabetes.arff");
-		 Instances instanciasnoclasificadas = Lector.getLector().leerInstancias("ficheros/falta.arff");
-		 for (Instance instancia : instanciasnoclasificadas) {
-			 nm.prepararInstancias(instancias, instancia);
-			 nm.clasificarInstancia(instancia);
+		 Instances instancias = Lector.getLector().leerInstancias("ficheros/preDev.arff");
+		 Instances instanciasparaclasificar = Lector.getLector().leerInstancias("ficheros/preDev.arff");
+		 double prediccion;
+		 for (int i=1;i<=instanciasparaclasificar.numInstances();i++) {
+			 nm.prepararInstancias(instancias, instanciasparaclasificar.get(i));
+			 instanciasparaclasificar.get(i).setClassValue(nm.clasificarInstancia(instanciasparaclasificar.get(i)));
 		 }
-		 // aqui faltaria coger las verdaderas y falsas y sacar TPR FPR manualmente y luego comparar.
-		 
+		 nm.crearMatrixConfusion(instanciasparaclasificar, instancias);
+		 nm.calcularMediciones();
 	}
 
 }

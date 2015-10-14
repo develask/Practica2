@@ -36,10 +36,20 @@ public class NuestroModelo {
 	 * @param distance Tipo de distancia a analizar: [(1: Manhattan), (2: Eucl√≠dea), (3: Minkowski)]
 	 * @param searchAlgoritm Algoritmo de busqueda: [1:5]
 	 */
+	private int tP;
+	private int tN;
+	private int fP;
+	private int fN;
+	
+	
 	public NuestroModelo(int KNN, int distance, int searchAlgoritm){
 	    this.setKNN(KNN);
 	    this.setDistanceWeighting(distance);
 	    this.setNearestNeighbourSearchAlgorithm(searchAlgoritm);
+	    this.fN=0;
+	    this.fP=0;
+	    this.tN=0;
+	    this.tP=0;
 	}
 
 	public void setDistanceWeighting(int i){
@@ -71,15 +81,47 @@ public class NuestroModelo {
    	
   
 	public void prepararInstancias(Instances instancias, Instance instancia){
-		double distancia=0.00;
-		lista = new ArrayList<Double>();
+		double distancia = 0.00;
+		double[][] lista = new double[2][instancias.numInstances()];
+		//primera linea referencia instancia; segunda linea distancia
 		for(int j=1;j<=instancias.numInstances();j++){
 			distancia=this.calcularDistancia(instancias.get(j),instancia);
-			lista.add(distancia);
+			lista[0][j]=j;
+			lista[1][j]=distancia;
 		}
 		Collections.sort(lista);
 	}
+	public void crearMatrixConfusion(Instances noclasf, Instances clasf){
+		// 1 sera t 0 sera f
+		for (int i = 0; i < clasf.numInstances(); i++) {
+			double clase = clasf.get(i).classValue();
+			System.out.println(clase);
+			if(clasf.get(i).classValue()==noclasf.get(i).classValue() &&  clase== 1.0){
+				tP=tP++;
+			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 1.0){
+				tN=tN++;
+			}else if(clasf.get(i).classValue()==noclasf.get(i).classValue() && clase== 0.0){
+				fP=fP++;
+			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 0.0){
+				fN=fN++;
+			}
+		}
+		
+		System.out.println("MatrÌz realizada con Èxito");
+	}
 	
+	public void calcularMediciones(){
+		float recall;
+		float accuracy;
+		float precision;
+		float fmeasure;
+		
+		precision=100*(this.tP/(this.tP + this.fP));
+		recall=this.tP/(this.tP + this.fN);
+		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
+		fmeasure=(2*precision*recall)/(precision + recall); 
+		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(), this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
+	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
 		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		int numAtr = instanciaaclasificar.numAttributes();
@@ -103,7 +145,7 @@ public class NuestroModelo {
 		return dis.getDistance();
 	}
 
-	public void clasificarInstancia(Instance NoClasificada){
+	public double clasificarInstancia(Instance NoClasificada){
 		int numerovecinos = this.getKNN();
 		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		//recorreremos el array hasta el numero de k en instancias
@@ -128,5 +170,7 @@ public class NuestroModelo {
 				
 			}
 		}
+		//devolveremos las intancias clasificadas : solaparemos las clases con la calculada en el metodo. 
+		return 0.00;
 	}
 }	

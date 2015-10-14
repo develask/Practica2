@@ -89,46 +89,37 @@ public class Escritor {
 		}
 	}
 
-	public void hacerFicheroNuestroModelo(String path, Evaluation evaluator, NuestroModelo estimador, int knnEzExhaustiboanuestro, String tipoEstimacion,boolean nuevo){
+	public void hacerFicheroNuestroModelo(String path,int kNN,int distanceWeighting,int nearestNeighbourSearchAlgorithm,float precision,float recall,float accuracy,float fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
 	
 		try {
-			double precision= evaluator.weightedPrecision();			
-			double recall= evaluator.weightedRecall();
-			double roc= evaluator.weightedAreaUnderROC();
-			double fmeasureMedia= evaluator.weightedFMeasure();
-			String matriz = evaluator.toMatrixString();
-			double accu=evaluator.pctCorrect();
-			double fmeasureV1 = evaluator.fMeasure(0);
-			double fmeasureV2 = evaluator.fMeasure(1);
+				
 			try {
 				FileWriter fw= new FileWriter(path, nuevo);
 				fw.write("\n******************************************************\n");
-				fw.write("\n****"+tipoEstimacion+"****\n");
+				fw.write("\n****Estimacion Nuestro modelo****\n");
 				fw.write("\n******************************************************\n");
-				fw.write("F-Measure Batazbestekoa: " + fmeasureMedia+"\n");
-				fw.write("K Maximoa: " + estimador.getKNN()+"\n");
-				fw.write("Distance Weighting: " + estimador.getDistanceWeighting()+"\n");
-				fw.write("Revision: " + estimador.getRevision()+"\n");
-				fw.write("Training Times: " + estimador.getNumTraining()+"\n");
-				fw.write("Nearest Neighbour Searh Algorithm: " + estimador.getNearestNeighbourSearchAlgorithm()+"\n");
-				fw.write("K Maximoa ez Exhaustiboarekin: " + knnEzExhaustiboanuestro+"\n");
-				fw.write("Precision Batazbestekoa: " + precision+"\n");
-				fw.write("Recall Batazbestekoa: " + recall+"\n");
-				fw.write("ROC Area Batazbestekoa: " + roc+"\n");
-				fw.write("F-Measure V1: " + fmeasureV1+"\n");
-				fw.write("F-Measure V2: " + fmeasureV2+"\n");
-				fw.write("Recall V1: " + evaluator.recall(0)+"\n");
-				fw.write("Recall V2: " + evaluator.recall(1)+"\n");
-				fw.write("Precision V1: " + evaluator.precision(0)+"\n");
-				fw.write("Precision V2: " + evaluator.precision(1)+"\n");
-				fw.write("Correctly Classified Instances: " + accu);
-				fw.write("\n" + matriz);
+				fw.write("K Maximoa: " + kNN+"\n");
+				fw.write("Distance Weighting: " + distanceWeighting+"\n");
+				fw.write("Nearest Neighbour Searh Algorithm: " + nearestNeighbourSearchAlgorithm+"\n");
+				fw.write("---------------------------------");
+				fw.write("    Precision = "+precision+"    ");
+				fw.write("    Recall = "+recall+"          ");
+				fw.write("    Accuracy = "+accuracy+"      ");
+				fw.write("    F-Measure = "+fmeasure+"     ");
+				fw.write("---------------------------------");
+				fw.write("------------Matriz De Confusión---------------------");
+				fw.write("----------------------------------");
+				fw.write("---|---------|-------------------");
+				fw.write("---|-TP="+tP+"---|-FP="+fP+"--------");
+				fw.write("---|---------|-------------------");
+				fw.write("---|-TN="+tN+"---|-FN="+fN+"--------");
+				fw.write("---|---------|-------------------");
 				fw.close();
 				 
 		} catch (IOException e) {
 			File f = new File(path);
 			f.mkdirs();
-			hacerFicheroNuestroModelo(path, evaluator, estimador, knnEzExhaustiboanuestro, tipoEstimacion, nuevo);
+			hacerFicheroNuestroModelo(path, kNN, distanceWeighting, nearestNeighbourSearchAlgorithm, precision, recall, accuracy, fmeasure, tP, tN, fP, fN , nuevo);
 		}
 		} catch (Exception e1) {
 			e1.printStackTrace();
