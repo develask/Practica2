@@ -22,7 +22,17 @@ public class NuestroModelo {
 	 * 2- "Weight by 1/distance"
 	 * 3- "Weight by 1-distance"
 	 */
-	protected int distanceWeighting;
+	public enum DistanceWight {
+		NoDistance, OneDivDistance, OneMinusDistance
+	};
+	
+	protected DistanceWight distanceWeighting;
+	
+	public enum DistanceType {
+		Manhattan, Euclidea, Minkowski
+	};
+	private DistanceType distance;
+	private Minkowski distanceMethod;
     /**
      * 1- KNN con rechazo
      * 2- Distancia media
@@ -44,22 +54,43 @@ public class NuestroModelo {
 	 * @param distance Tipo de distancia a analizar: [(1: Manhattan), (2: Euclídea), (3: Minkowski)]
 	 * @param searchAlgoritm Algoritmo de busqueda: [1:5]
 	 */
-	public NuestroModelo(int KNN, int distance, int searchAlgoritm){
+	public NuestroModelo(int KNN, DistanceWight distanceW, DistanceType distanceT , int searchAlgoritm){
 	    this.setKNN(KNN);
-	    this.setDistanceWeighting(distance);
+	    this.setDistanceWeighting(distanceW);
+	    this.setDistance(distanceT);
 	    this.setNearestNeighbourSearchAlgorithm(searchAlgoritm);
 	    this.fN=0;
 	    this.fP=0;
 	    this.tN=0;
 	    this.tP=0;
 	}
+	
+	public DistanceType getDistance() {
+		return distance;
+	}
 
-	public void setDistanceWeighting(int i){
-		if (i<1 || i>3) i = 1;
+	public void setDistance(DistanceType distance) {
+		this.distance = distance;
+		switch (distance) {
+		case Manhattan:
+			this.distanceMethod = new Minkowski(1);
+			break;
+		case Euclidea:
+			this.distanceMethod = new Minkowski(2);
+			break;
+		case Minkowski:
+			this.distanceMethod = new Minkowski(3);
+			break;
+		default:
+			break;
+		}
+	}
+
+	public void setDistanceWeighting(DistanceWight i){
 		this.distanceWeighting=i;
 		
 	}
-	public int getDistanceWeighting(){
+	public DistanceWight getDistanceWeighting(){
 		return this.distanceWeighting;
 	}
 
@@ -132,26 +163,11 @@ public class NuestroModelo {
 		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(), this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
 	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
-		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		int numAtr = instanciaaclasificar.numAttributes();
-		Distance dis;
-		switch (metodo) {
-		case 1:
-			dis = new Manhattan(numAtr);
-			break;
-		case 2:
-			dis = new Euclidea(numAtr);
-			break;
-		case 3:
-			dis = new Minkowski(numAtr);
-			break;
-		default:
-			return 0.00;
-		}
 		for(int i=1;i<=numAtr;i++){
-			dis.setAtributeDist(instancia.value(i), instanciaaclasificar.value(i));
+			this.distanceMethod.setAtributeDist(instancia.value(i), instanciaaclasificar.value(i));
 		}
-		return dis.getDistance();
+		return this.distanceMethod.getDistance();
 	}
 
 	public double clasificarInstancia(Instance NoClasificada){
