@@ -12,7 +12,6 @@ import weka.core.Instances;
 public class NuestroModelo { 
 	
 	private double[][] lista;
-	//no he encontrado ninguna forma de enlazar una distancia y una instancia, hay que mirarlo.
     /**
      * 1- Numero de vecinos para analizar
      * */
@@ -162,6 +161,18 @@ public class NuestroModelo {
 		fmeasure=(2*precision*recall)/(precision + recall); 
 		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
 	}
+	private double calcularPeso(double distancia){
+		
+		switch (this.getDistanceWeighting()) {
+		case NoDistance:
+			return distancia;
+		case OneDivDistance:
+			return 1/distancia;
+		case OneMinusDistance:
+			return 1-distancia;
+		}
+		return distancia;
+	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
 		int numAtr = instanciaaclasificar.numAttributes();
 		for(int i=1;i<=numAtr;i++){
@@ -175,15 +186,21 @@ public class NuestroModelo {
 		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		//recorreremos el array hasta el numero de k en instancias
 		if (metodo == 1){
-			ArrayList<Instance> instanciasOrdenadas = new ArrayList<Instance>();
-			ArrayList<Integer> distancias = new ArrayList<Integer>();
-
+			double[] mediasPeso = new double[instancias.numClasses()];
+			double[][] temp= new double[instancias.numClasses()][2];
+			for(double[] j:temp)for(double i: j)i=0.00;
 			for(int i=1;i<=numerovecinos;i++){
-				instanciasOrdenadas.add(instancias.get(lista[i][0]));
-				distancias.add(instancias.get((int)lista[i][1]));
-				
-				
+				temp[instancias.get((int)lista[i][0]).classIndex()][0]+=instancias.get((int)lista[i][0]).classValue();
+				temp[instancias.get((int)lista[i][0]).classIndex()][1]++;
 			}
+			for(int i=0;i<instancias.numClasses();i++){
+				if(temp[i][1]>0){
+					mediasPeso[i]=temp[i][0]/temp[i][1];
+				}else{
+					mediasPeso[i]=-1.00;
+				}
+			}
+			return conseguirClase(mediasPeso);
 		}else if(metodo == 2){
 			for(int i=1;i<=numerovecinos;i++){
 				
@@ -203,5 +220,25 @@ public class NuestroModelo {
 		}
 		//devolveremos las intancias clasificadas : solaparemos las clases con la calculada en el metodo. 
 		return 0.00;
+	}
+
+	private double conseguirClase(double[] mediasPeso) {
+		switch (this.getDistanceWeighting()) {
+		case NoDistance:
+				int pos=-1;
+				double peso=mediasPeso[1]+mediasPeso[2];
+				for(int i=0;i<mediasPeso.length;i++){					
+					if(mediasPeso[i]<pos){
+						
+					}
+				}
+			return;
+		case OneDivDistance:
+			return 1/distancia;
+		case OneMinusDistance:
+			return 1-distancia;
+		}
+		return distancia;
+		
 	}
 }	
