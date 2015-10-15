@@ -11,7 +11,7 @@ import weka.core.Instances;
 
 public class NuestroModelo { 
 	
-	private ArrayList<Double> lista = new ArrayList<Double>();
+	private double[][] lista;
 	//no he encontrado ninguna forma de enlazar una distancia y una instancia, hay que mirarlo.
     /**
      * 1- Numero de vecinos para analizar
@@ -115,7 +115,7 @@ public class NuestroModelo {
   
 	public void prepararInstancias(Instances instancias, Instance instancia){
 		double distancia = 0.00;
-		double[][] lista = new double[instancias.numInstances()][2];
+		lista = new double[instancias.numInstances()][2];
 		
 		//primera linea referencia instancia; segunda linea distancia
 		for(int j=1;j<=instancias.numInstances();j++){
@@ -160,7 +160,7 @@ public class NuestroModelo {
 		recall=this.tP/(this.tP + this.fN);
 		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
 		fmeasure=(2*precision*recall)/(precision + recall); 
-		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(), this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
+		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
 	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
 		int numAtr = instanciaaclasificar.numAttributes();
@@ -170,12 +170,18 @@ public class NuestroModelo {
 		return this.distanceMethod.getDistance();
 	}
 
-	public double clasificarInstancia(Instance NoClasificada){
+	public double clasificarInstancia(Instance NoClasificada,Instances instancias){
 		int numerovecinos = this.getKNN();
 		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		//recorreremos el array hasta el numero de k en instancias
 		if (metodo == 1){
+			ArrayList<Instance> instanciasOrdenadas = new ArrayList<Instance>();
+			ArrayList<Integer> distancias = new ArrayList<Integer>();
+
 			for(int i=1;i<=numerovecinos;i++){
+				instanciasOrdenadas.add(instancias.get(lista[i][0]));
+				distancias.add(instancias.get((int)lista[i][1]));
+				
 				
 			}
 		}else if(metodo == 2){

@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import src.NuestroModelo.DistanceWight;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
 import weka.classifiers.functions.MultilayerPerceptron;
@@ -89,7 +90,7 @@ public class Escritor {
 		}
 	}
 
-	public void hacerFicheroNuestroModelo(String path,int kNN,int distanceWeighting,int nearestNeighbourSearchAlgorithm,float precision,float recall,float accuracy,float fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
+	public void hacerFicheroNuestroModelo(String path,int kNN,DistanceWight distanceWeighting,int nearestNeighbourSearchAlgorithm,float precision,float recall,float accuracy,float fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
 	
 		try {
 				
