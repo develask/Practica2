@@ -42,7 +42,7 @@ public class Probador {
 		 Instances instancias = Lector.getLector().leerInstancias("ficheros/preTrain.arff");
 		 Instances instanciasparaclasificar = Lector.getLector().leerInstancias("ficheros/preDev.arff");
 		 double prediccion;
-		 for (int i=1;i<=instanciasparaclasificar.numInstances();i++) {
+		 for (int i=0;i<instanciasparaclasificar.numInstances();i++) {
 			 nm.prepararInstancias(instancias, instanciasparaclasificar.get(i));
 			 instanciasparaclasificar.get(i).setClassValue(nm.clasificarInstancia(instanciasparaclasificar.get(i),instancias));
 		 }

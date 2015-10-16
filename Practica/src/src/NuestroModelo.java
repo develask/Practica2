@@ -42,10 +42,10 @@ public class NuestroModelo {
 	protected int NNSearch;
 	
 	
-	private int tP;
-	private int tN;
-	private int fP;
-	private int fN;
+	private double tP;
+	private double tN;
+	private double fP;
+	private double fN;
 	
 	/**
 	 * Constructor para crear el modelo KNN.
@@ -58,10 +58,10 @@ public class NuestroModelo {
 	    this.setDistanceWeighting(distanceW);
 	    this.setDistance(distanceT);
 	    this.setNearestNeighbourSearchAlgorithm(searchAlgoritm);
-	    this.fN=0;
-	    this.fP=0;
-	    this.tN=0;
-	    this.tP=0;
+	    this.fN=0.001;
+	    this.fP=0.001;
+	    this.tN=0.001;
+	    this.tP=0.001;
 	}
 	
 	public DistanceType getDistance() {
@@ -117,7 +117,7 @@ public class NuestroModelo {
 		lista = new double[instancias.numInstances()][2];
 		
 		//primera linea referencia instancia; segunda linea distancia
-		for(int j=1;j<=instancias.numInstances();j++){
+		for(int j=0;j<instancias.numInstances();j++){
 			distancia=this.calcularDistancia(instancias.get(j),instancia);
 			lista[j][0]=j;
 			lista[j][1]=distancia;
@@ -134,7 +134,7 @@ public class NuestroModelo {
 		// 1 sera t 0 sera f
 		for (int i = 0; i < clasf.numInstances(); i++) {
 			double clase = clasf.get(i).classValue();
-			System.out.println(clase);
+			System.out.println(clasf.classAttribute().value((int)clase));
 			if(clasf.get(i).classValue()==noclasf.get(i).classValue() &&  clase== 1.0){
 				tP=tP++;
 			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 1.0){
@@ -150,16 +150,16 @@ public class NuestroModelo {
 	}
 	
 	public void calcularMediciones(){
-		float recall;
-		float accuracy;
-		float precision;
-		float fmeasure;
+		double recall;
+		double accuracy;
+		double precision;
+		double fmeasure;
 		
 		precision=100*(this.tP/(this.tP + this.fP));
 		recall=this.tP/(this.tP + this.fN);
 		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
 		fmeasure=(2*precision*recall)/(precision + recall); 
-		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure, tP, tN, fP, fN , true);
+		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure,Integer.,(int) tN,(int) fP,(int) fN , false);
 	}
 	private double calcularPeso(double distancia){
 		
@@ -175,8 +175,8 @@ public class NuestroModelo {
 	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
 		int numAtr = instanciaaclasificar.numAttributes();
-		for(int i=1;i<=numAtr;i++){
-			this.distanceMethod.setAtributeDist(instancia.value(i), instanciaaclasificar.value(i));
+		for(int i=0;i<numAtr;i++){
+			this.distanceMethod.setAtributeDist((double)instancia.value(i), (double)instanciaaclasificar.value(i));
 		}
 		return this.distanceMethod.getDistance();
 	}
@@ -188,10 +188,14 @@ public class NuestroModelo {
 		if (metodo == 1){
 			double[] mediasPeso = new double[instancias.numClasses()];
 			Double[][] temp= new Double[instancias.numClasses()][2];
-			for(Double[] j:temp)for(Double i: j)i=0.00;
-			for(int i=1;i<=numerovecinos;i++){
-				temp[instancias.get((int)lista[i][0]).classIndex()][0]+=calcularPeso(instancias.get((int)lista[i][0]).classValue());
-				temp[instancias.get((int)lista[i][0]).classIndex()][1]++;
+			for(int i=0;i<temp.length;i++){
+				for (int j = 0; j < temp[i].length; j++) {
+					temp[i][j]=0.00;
+				}
+			}
+			for(int i=0;i<numerovecinos;i++){
+				temp[((int)instancias.get((int)lista[i][0]).classValue())][0]+=calcularPeso(lista[i][1]);
+				temp[(int)instancias.get((int)lista[i][0]).classValue()][1]++;
 			}
 			for(int i=0;i<instancias.numClasses();i++){
 				if(temp[i][1]>0){
@@ -244,7 +248,13 @@ public class NuestroModelo {
 			}
 			break;
 		case OneMinusDistance:
-			//TODO
+			peso=Double.MIN_VALUE;
+			for(int i=0;i<mediasPeso.length;i++){					
+				if(mediasPeso[i]>peso && mediasPeso[i]!=-1){
+					pos = i;
+					peso = mediasPeso[i];
+				}
+			}
 			break;
 		}
 		return pos;

@@ -60,12 +60,14 @@ La clase que hay que determinar es si el paciente tiene diabetes o no.
 
 \subsection{Par\'ametro {\color{blue}k}}
 
-El parametro {\color{blue}k} es el parametro que utilizaremos para indicar cuantos vecinos vamos a usar para evaluar el clasificador.
+El par\'ametro {\color{blue}k} es el par\'ametro que utilizaremos para indicar cuantos vecinos vamos a usar para evaluar el clasificador. Cuantos m\'as usemos mejor, pero, tambi\'en aumentara el costo del algoritmo.
 
 \subsection{Par\'ametro {\color{magenta}m}}
 
-El parametro {\color{magenta}m} sera el parametro que utilizaremos para saber que distancia tenemos que utilizar para evaluar nuestro clasificador.
+El par\'ametro {\color{magenta}m} sera el par\'ametro que utilizaremos para saber que distancia tenemos que utilizar para evaluar nuestro clasificador.
+
 En esta pr\'actica hemos implementado 3 distintas distancias:
+
 \begin{enumerate}
     \item Distancia de \textbf{Manhattan}:
     	
@@ -79,7 +81,7 @@ En esta pr\'actica hemos implementado 3 distintas distancias:
     
     \item Distancia \textbf{Eucl\'idea}: 
     
-    Un espacio eucl\'ideo es un espacio vectorial normado sobre los números reales de dimensión finita, en que la norma es la asociada al producto escalar ordinario. Para cada número entero no negativo n, el espacio eucl\'ideo n-dimensional se representa por el símbolo ${\mathbb{R}^{n}}$ y es el conjunto de todas las tuplas ordenadas ${(x_1,x_2,\ldots,x_n)}$ en donde cada ${x_i}$ es un n\'umero real, junto con la función distancia entre dos puntos ${(x1, \ldots, x_n) e (y1, \ldots, y_n)}$ definida por la fórmula:
+    Un espacio eucl\'ideo es un espacio vectorial formado sobre los números reales de dimensión finita, en que la norma es la asociada al producto escalar ordinario. Para cada número entero no negativo n, el espacio eucl\'ideo n-dimensional se representa por el símbolo ${\mathbb{R}^{n}}$ y es el conjunto de todas las tuplas ordenadas ${(x_1,x_2,\ldots,x_n)}$ en donde cada ${x_i}$ es un n\'umero real, junto con la función distancia entre dos puntos ${(x1, \ldots, x_n) e (y1, \ldots, y_n)}$ definida por la fórmula:
     
     \begin{equation}\label{euclidea}
     d(\mathbf{x}, \mathbf{y}) = \|\mathbf{x} - \mathbf{y}\| = \sqrt{\sum_{i=1}^n (x_i - y_i)^2}
@@ -88,7 +90,17 @@ En esta pr\'actica hemos implementado 3 distintas distancias:
     Esta funci\'on distancia es una generalizaci\'on del teorema de Pit\'agoras y se denomina Distancia euclidiana (\ref{euclidea}).
     
     \item Distancia de \textbf{Minkowski}:
+    
+    En física matemática, el espacio de Minkowski (o espacio-tiempo de Minkowski) es una variedad lorentziana de cuatro dimensiones y curvatura nula, usada para describir los fenómenos físicos en el marco de la teoría especial de la relatividad de Einstein.
+
+En el espacio de Minkowski pueden distinguirse tres dimensiones espaciales ordinarias y una dimensión temporal adicional, de tal manera que todas juntas forman una 4-variedad y así representar al espacio-tiempo.
+
+El espacio-tiempo de Minkowski es una variedad lorentziana de curvatura nula e isomorfa a \mathcal{M}_0 = (\R^4, \boldsymbol \eta) donde el tensor métrico puede llegar a escribirse en un sistema de coordenadas cartesianas como:
+	\begin{equation}\label{minkowski}
+	\eta = -dx^0\otimes dx^0 + dx^1\otimes dx^1 + dx^2\otimes dx^2 + dx^3\otimes dx^3
+	\end{equation}
 \end{enumerate}
+	
     
 \section{Metodolog\'ia}
 
@@ -97,23 +109,23 @@ En este apartado desarrollaremos nuestro propio algoritmo K-Nearest Neighbors y 
 El algoritmo que hemos desarrollado es b\'asicamente una adaptaci\'on del clasificador IBk ya que hemos cogido su c\'odigo y le hemos cambiado la forma de estimar que estaban utilizando. 
 
 
-Nuestro programa puede ser ejecutado desde eclipse de una manera muy f\'acil. Si ejecutas el Probador.java conseguiras una ejecuci\'on total del programa y obtendras los resultados en la carpeta de ficheros. Por otro lado, tambi\'en se pueden ejecutar de forma individual. Se diferenciarian 3 ejecuciones diferentes. Preprocesador.java nos sirve para quitar todo lo malo que venga en los datos(Extreme values, outliers,...).
+Nuestro programa puede ser ejecutado desde eclipse de una manera muy f\'acil. Si ejecutas el Probador.java conseguir\'s una ejecuci\'on total del programa y obtendr\'as los resultados en la carpeta de ficheros. Por otro lado, tambi\'en se pueden ejecutar de forma individual. Se diferenciar\'ian 3 ejecuciones diferentes. Preprocesador.java nos sirve para quitar todo lo malo que venga en los datos(Extreme values, outliers,...).
 
 	Como parametros de entrada tendremos los siguientes
 
-Despu\'es ejecutariamos Modelo.java y con ello conseguiriamos obtener los dos modelos de los que estamos tratando en la practica. 
+Despu\'es ejecutar\'iamos Modelo.java y con ello conseguir\'iamos obtener los dos modelos de los que estamos tratando en la practica. 
 
-	Como parametros de entrada tendremos los siguientes
+	Como par\'ametros de entrada tendremos los siguientes
 
 
-Por ultimo, ejecutariamos el Clasificador.java y con ello conseguiriamos los resultados que necesitamos para comparar los modelos anteriores. 
+Por ultimo, ejecutar\'iamos el Clasificador.java y con ello conseguir\'iamos los resultados que necesitamos para comparar los modelos anteriores. 
 
-	Como parametros de entrada tendremos los siguientes
+	Como par\'ametros de entrada tendremos los siguientes
 
 
 \section{Resultados}
 
-En esta seccion mostraremos los resultados que hemos obtenido de las ejecuciones anteriores
+En esta secci\'on mostraremos los resultados que hemos obtenido de las ejecuciones anteriores
 
 \section{Conclusiones}
 

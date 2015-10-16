@@ -105,13 +105,13 @@ public class PreProcesador {
 				
 		try {
 			filter.setInputFormat(instanciasParaFiltrar[0]);
-			instanciasParaFiltrar3[0] = Filter.useFilter(instanciasParaFiltrar2, filter);
+			instanciasParaFiltrar3[0] = Filter.useFilter(instanciasParaFiltrar[0], filter);
 			instanciasParaFiltrar3[1] = Filter.useFilter(instanciasParaFiltrar[1], filter);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		Escritor.getEscritor().escribirInstancias(instanciasParaFiltrar3[0], args[2]);
-		Escritor.getEscritor().escribirInstancias(instanciasParaFiltrar3[1], args[3]);
+		Escritor.getEscritor().escribirInstancias(instanciasParaFiltrar3[0], args[1]);
+		Escritor.getEscritor().escribirInstancias(instanciasParaFiltrar3[1], args[2]);
 	}
 
 }

@@ -90,7 +90,7 @@ public class Escritor {
 		}
 	}
 
-	public void hacerFicheroNuestroModelo(String path,int kNN,DistanceWight distanceWeighting,int nearestNeighbourSearchAlgorithm,float precision,float recall,float accuracy,float fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
+	public void hacerFicheroNuestroModelo(String path,int kNN,DistanceWight distanceWeighting,int nearestNeighbourSearchAlgorithm,double precision,double recall,double accuracy,double fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
 	
 		try {
 				
@@ -102,19 +102,19 @@ public class Escritor {
 				fw.write("K Maximoa: " + kNN+"\n");
 				fw.write("Distance Weighting: " + distanceWeighting+"\n");
 				fw.write("Nearest Neighbour Searh Algorithm: " + nearestNeighbourSearchAlgorithm+"\n");
-				fw.write("---------------------------------");
-				fw.write("    Precision = "+precision+"    ");
-				fw.write("    Recall = "+recall+"          ");
-				fw.write("    Accuracy = "+accuracy+"      ");
-				fw.write("    F-Measure = "+fmeasure+"     ");
-				fw.write("---------------------------------");
-				fw.write("------------Matriz De Confusión---------------------");
-				fw.write("----------------------------------");
-				fw.write("---|---------|-------------------");
-				fw.write("---|-TP="+tP+"---|-FP="+fP+"--------");
-				fw.write("---|---------|-------------------");
-				fw.write("---|-TN="+tN+"---|-FN="+fN+"--------");
-				fw.write("---|---------|-------------------");
+				fw.write("---------------------------------\n");
+				fw.write("    Precision = "+precision+"    \n");
+				fw.write("    Recall = "+recall+"          \n");
+				fw.write("    Accuracy = "+accuracy+"      \n");
+				fw.write("    F-Measure = "+fmeasure+"     \n");
+				fw.write("---------------------------------\n");
+				fw.write("------------Matriz De Confusión---------------------\n");
+				fw.write("----------------------------------\n");
+				fw.write("---|---------|-------------------\n");
+				fw.write("---|-TP="+tP+"---|-FP="+fP+"--------\n");
+				fw.write("---|---------|-------------------\n");
+				fw.write("---|-TN="+tN+"---|-FN="+fN+"--------\n");
+				fw.write("---|---------|-------------------\n");
 				fw.close();
 				 
 		} catch (IOException e) {

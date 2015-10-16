@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Minkowski{
 
-	private ArrayList<Double> a;
+	private ArrayList<Double> a= new ArrayList<Double>();
 	private int p = 3;
 	
 	public Minkowski(int p) {
