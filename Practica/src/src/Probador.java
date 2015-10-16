@@ -3,7 +3,6 @@ package src;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Iterator;
 
 import src.NuestroModelo.DistanceType;
 import src.NuestroModelo.DistanceWight;
@@ -49,6 +48,7 @@ public class Probador {
 				}
 			 }
 		 }
+		
 	}
 
 }
