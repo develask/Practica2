@@ -187,17 +187,17 @@ public class NuestroModelo {
 		//recorreremos el array hasta el numero de k en instancias
 		if (metodo == 1){
 			double[] mediasPeso = new double[instancias.numClasses()];
-			double[][] temp= new double[instancias.numClasses()][2];
-			for(double[] j:temp)for(double i: j)i=0.00;
+			Double[][] temp= new Double[instancias.numClasses()][2];
+			for(Double[] j:temp)for(Double i: j)i=0.00;
 			for(int i=1;i<=numerovecinos;i++){
-				temp[instancias.get((int)lista[i][0]).classIndex()][0]+=instancias.get((int)lista[i][0]).classValue();
+				temp[instancias.get((int)lista[i][0]).classIndex()][0]+=calcularPeso(instancias.get((int)lista[i][0]).classValue());
 				temp[instancias.get((int)lista[i][0]).classIndex()][1]++;
 			}
 			for(int i=0;i<instancias.numClasses();i++){
 				if(temp[i][1]>0){
 					mediasPeso[i]=temp[i][0]/temp[i][1];
 				}else{
-					mediasPeso[i]=-1.00;
+					mediasPeso[i]=-1;
 				}
 			}
 			return conseguirClase(mediasPeso);
@@ -223,22 +223,31 @@ public class NuestroModelo {
 	}
 
 	private double conseguirClase(double[] mediasPeso) {
+		int pos=-1;
+		double peso=Double.MAX_VALUE;
 		switch (this.getDistanceWeighting()) {
 		case NoDistance:
-				int pos=-1;
-				double peso=mediasPeso[1]+mediasPeso[2];
-				for(int i=0;i<mediasPeso.length;i++){					
-					if(mediasPeso[i]<pos){
-						
-					}
+			for(int i=0;i<mediasPeso.length;i++){					
+				if(mediasPeso[i]<peso && mediasPeso[i]!=-1){
+					pos = i;
+					peso = mediasPeso[i];
 				}
-			return;
+			}
+			break;
 		case OneDivDistance:
-			return 1/distancia;
+			peso=Double.MIN_VALUE;
+			for(int i=0;i<mediasPeso.length;i++){					
+				if(mediasPeso[i]>peso && mediasPeso[i]!=-1){
+					pos = i;
+					peso = mediasPeso[i];
+				}
+			}
+			break;
 		case OneMinusDistance:
-			return 1-distancia;
+			//TODO
+			break;
 		}
-		return distancia;
+		return pos;
 		
 	}
 }	
