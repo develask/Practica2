@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
+import src.NuestroModelo.DistanceType;
 import src.NuestroModelo.DistanceWight;
 import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
@@ -90,7 +91,7 @@ public class Escritor {
 		}
 	}
 
-	public void hacerFicheroNuestroModelo(String path,int kNN,DistanceWight distanceWeighting,int nearestNeighbourSearchAlgorithm,double precision,double recall,double accuracy,double fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
+	public void hacerFicheroNuestroModelo(String path,int kNN,DistanceWight distanceWeighting,DistanceType distanceType, int nearestNeighbourSearchAlgorithm,double precision,double recall,double accuracy,double fmeasure,int tP,int tN,int fP,int fN,boolean nuevo){
 	
 		try {
 				
@@ -101,6 +102,7 @@ public class Escritor {
 				fw.write("\n******************************************************\n");
 				fw.write("K Maximoa: " + kNN+"\n");
 				fw.write("Distance Weighting: " + distanceWeighting+"\n");
+				fw.write("Distance Type: " + distanceType+"\n");
 				fw.write("Nearest Neighbour Searh Algorithm: " + nearestNeighbourSearchAlgorithm+"\n");
 				fw.write("---------------------------------\n");
 				fw.write("    Precision = "+precision+"    \n");
@@ -108,7 +110,7 @@ public class Escritor {
 				fw.write("    Accuracy = "+accuracy+"      \n");
 				fw.write("    F-Measure = "+fmeasure+"     \n");
 				fw.write("---------------------------------\n");
-				fw.write("------------Matriz De Confusión---------------------\n");
+				fw.write("------------Matriz De Confusiï¿½n---------------------\n");
 				fw.write("----------------------------------\n");
 				fw.write("---|---------|-------------------\n");
 				fw.write("---|-TP="+tP+"---|-FP="+fP+"--------\n");
@@ -120,7 +122,7 @@ public class Escritor {
 		} catch (IOException e) {
 			File f = new File(path);
 			f.mkdirs();
-			hacerFicheroNuestroModelo(path, kNN, distanceWeighting, nearestNeighbourSearchAlgorithm, precision, recall, accuracy, fmeasure, tP, tN, fP, fN , nuevo);
+			hacerFicheroNuestroModelo(path, kNN, distanceWeighting, distanceType, nearestNeighbourSearchAlgorithm, precision, recall, accuracy, fmeasure, tP, tN, fP, fN , nuevo);
 		}
 		} catch (Exception e1) {
 			e1.printStackTrace();

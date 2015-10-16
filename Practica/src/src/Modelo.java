@@ -112,7 +112,7 @@ public class Modelo {
 	   
 	    
 	    //modeloa egin
-	    Escritor.getEscritor().escribirModelo("modelos/IBkModel.model", estimador);
+	    //Escritor.getEscritor().escribirModelo("modelos/IBkModel.model", estimador);
 	    
 	    System.out.println("Modelo IBk escrito");  
 		

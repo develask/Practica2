@@ -22,7 +22,7 @@ public class NuestroModelo {
 	 * 3- "Weight by 1-distance"
 	 */
 	public enum DistanceWight {
-		NoDistance, OneDivDistance, OneMinusDistance
+		NoDistance, OneDivDistance
 	};
 	
 	protected DistanceWight distanceWeighting;
@@ -133,33 +133,39 @@ public class NuestroModelo {
 	public void crearMatrixConfusion(Instances noclasf, Instances clasf){
 		// 1 sera t 0 sera f
 		for (int i = 0; i < clasf.numInstances(); i++) {
-			double clase = clasf.get(i).classValue();
-			System.out.println(clasf.classAttribute().value((int)clase));
+			double clase = noclasf.get(i).classValue();
+			//System.out.println(clase+"-"+clasf.get(i).classValue());
+			//System.out.println(clasf.classAttribute().value((int)clase));
 			if(clasf.get(i).classValue()==noclasf.get(i).classValue() &&  clase== 1.0){
-				tP=tP++;
+				tP++;
 			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 1.0){
-				tN=tN++;
+				tN++;
 			}else if(clasf.get(i).classValue()==noclasf.get(i).classValue() && clase== 0.0){
-				fP=fP++;
+				fP++;
 			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 0.0){
-				fN=fN++;
+				fN++;
 			}
 		}
 		
-		System.out.println("Matr�z realizada con �xito");
+		System.out.println("Matríz realizada con Éxito");
 	}
 	
-	public void calcularMediciones(){
+	public double calcularMediciones(double fm){
 		double recall;
 		double accuracy;
 		double precision;
 		double fmeasure;
 		
 		precision=100*(this.tP/(this.tP + this.fP));
-		recall=this.tP/(this.tP + this.fN);
+		recall=100*(this.tP/(this.tP + this.fN));
 		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
 		fmeasure=(2*precision*recall)/(precision + recall); 
-		Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure,Integer.,(int) tN,(int) fP,(int) fN , false);
+		if (fm > fmeasure){
+			Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(),this.getDistance(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure,(int)Math.floor(tP),(int)Math.floor(tN),(int)Math.floor(fP),(int)Math.floor(fN) , false);
+			return fmeasure;
+		}else{
+			return fm;
+		}
 	}
 	private double calcularPeso(double distancia){
 		
@@ -168,12 +174,11 @@ public class NuestroModelo {
 			return distancia;
 		case OneDivDistance:
 			return 1/distancia;
-		case OneMinusDistance:
-			return 1-distancia;
 		}
 		return distancia;
 	}
 	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
+		this.distanceMethod.init();
 		int numAtr = instanciaaclasificar.numAttributes();
 		for(int i=0;i<numAtr;i++){
 			this.distanceMethod.setAtributeDist((double)instancia.value(i), (double)instanciaaclasificar.value(i));
@@ -194,7 +199,7 @@ public class NuestroModelo {
 				}
 			}
 			for(int i=0;i<numerovecinos;i++){
-				temp[((int)instancias.get((int)lista[i][0]).classValue())][0]+=calcularPeso(lista[i][1]);
+				temp[(int)instancias.get((int)lista[i][0]).classValue()][0]+=calcularPeso(lista[i][1]);
 				temp[(int)instancias.get((int)lista[i][0]).classValue()][1]++;
 			}
 			for(int i=0;i<instancias.numClasses();i++){
@@ -204,7 +209,7 @@ public class NuestroModelo {
 					mediasPeso[i]=-1;
 				}
 			}
-			return conseguirClase(mediasPeso);
+			return conseguirClase(mediasPeso)==0.0?1.0:0.0;
 		}else if(metodo == 2){
 			for(int i=1;i<=numerovecinos;i++){
 				
@@ -239,15 +244,6 @@ public class NuestroModelo {
 			}
 			break;
 		case OneDivDistance:
-			peso=Double.MIN_VALUE;
-			for(int i=0;i<mediasPeso.length;i++){					
-				if(mediasPeso[i]>peso && mediasPeso[i]!=-1){
-					pos = i;
-					peso = mediasPeso[i];
-				}
-			}
-			break;
-		case OneMinusDistance:
 			peso=Double.MIN_VALUE;
 			for(int i=0;i<mediasPeso.length;i++){					
 				if(mediasPeso[i]>peso && mediasPeso[i]!=-1){

@@ -21,4 +21,8 @@ public class Minkowski{
 		this.a.add(Math.pow(Math.abs(a-b), this.p));
 	}
 
+	public void init() {
+		this.a = new ArrayList<Double>();
+	}
+
 }
