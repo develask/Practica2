@@ -36,7 +36,7 @@ public class Probador {
 		 for (int k=1;k<100; k+=1){
 			 for(DistanceWight dw: DistanceWight.values()){
 				 for (DistanceType dt: DistanceType.values()) {
-					 System.out.format("k: %d | dType: %s | dwight: %s%n", k, dw.toString(), dt.toString());
+					 System.out.format("k: %d | dType: %s | dwight: %s%n", k, dt.toString(), dw.toString());
 					 Instances instancias = Lector.getLector().leerInstancias("ficheros/preTrain.arff");
 					 Instances instanciasparaclasificar = Lector.getLector().leerInstancias("ficheros/preDev.arff");
 					 nm= new NuestroModelo(k,dw,dt, 1);
