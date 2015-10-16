@@ -32,7 +32,7 @@ public class Probador {
 		 //Modelo.main(paramsM);
 
 		 NuestroModelo nm;
-		 double fm = Double.MAX_VALUE;
+		 double fm = 0;
 		 for (int k=1;k<100; k+=1){
 			 for(DistanceWight dw: DistanceWight.values()){
 				 for (DistanceType dt: DistanceType.values()) {
