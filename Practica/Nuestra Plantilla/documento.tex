@@ -108,31 +108,27 @@ En este apartado desarrollaremos nuestro propio algoritmo K-Nearest Neighbors y 
 
 El algoritmo que hemos desarrollado es b\'asicamente una adaptaci\'on del clasificador IBk ya que hemos cogido su c\'odigo y le hemos cambiado la forma de estimar que estaban utilizando. 
 
+Nuestro programa puede ser ejecutado desde eclipse de una manera muy f\'acil. Si ejecutas el Probador.java conseguir\'as una ejecuci\'on total del programa y obtendr\'as los resultados en la carpeta de ficheros. 
 
-Nuestro programa puede ser ejecutado desde eclipse de una manera muy f\'acil. Si ejecutas el Probador.java conseguir\'s una ejecuci\'on total del programa y obtendr\'as los resultados en la carpeta de ficheros. Por otro lado, tambi\'en se pueden ejecutar de forma individual. Se diferenciar\'ian 3 ejecuciones diferentes. Preprocesador.java nos sirve para quitar todo lo malo que venga en los datos(Extreme values, outliers,...).
+	Como par\'ametros de entrada tendremos el siguiente: ruta del archivo que queramos analizar, en nuestro caso, ficheros/diabetes.arff
+	
+Dentro de la ejecuci\'on total tenemos varias partes de ejecuciones. La primera nos vale para quitar atributos y instancias que no nos van a servir para la evaluaci\'on de nuestro m\'etodo. Despu\'es haremos la inferencia y la evaluaci\'on del clasificador Ibk. 
+Una vez que tengamos los datos del primer clasificador, haremos la evaluaci\'on de nuestroModelo.
 
-	Como parametros de entrada tendremos los siguientes
+Los resultados quedaran dentro de la carpeta ficheros. Si se quiere comparar los clasificadores solamente tendremos que fijarnos en los datos que hemos sacado en las evaluaciones.
 
-Despu\'es ejecutar\'iamos Modelo.java y con ello conseguir\'iamos obtener los dos modelos de los que estamos tratando en la practica. 
-
-	Como par\'ametros de entrada tendremos los siguientes
-
-
-Por ultimo, ejecutar\'iamos el Clasificador.java y con ello conseguir\'iamos los resultados que necesitamos para comparar los modelos anteriores. 
-
-	Como par\'ametros de entrada tendremos los siguientes
-
+Adem\'as tenemos otros m\'etodos que ya hemos mencionado pero no les hemos dado importancia. Tenemos varias clases que utilizamos para la lectura y escritura de todo tipo de archivos, aunque en este caso solamente necesitemos lectura y escritura de archivos de texto.
 
 \section{Resultados}
 
-En esta secci\'on mostraremos los resultados que hemos obtenido de las ejecuciones anteriores
+En esta secci\'on mostraremos los resultados que hemos obtenido de las ejecuciones anteriores.
 
 \section{Conclusiones}
 
 Realizar un clasificador desde cero ha sido una tarea complicada a que nos hemos basado en el modelo del IBk, y le hemos ajustado el pseudoc\'odigo que ten\'iamos. Ha sido una tarea entretenida y muy din\'amica pero muy costosa. Como conclusi\'on tenemos que decir que no merece la pena crear un modelo propio habiendo ya el IBk.   
 
 \section{Valoraci\'on Subjetiva}
-Una vez finalizado todo el proyecto, cada uno hemos echo una valoraci\'on de todo lo que ha supuesto el proyecto individualmente.
+Una vez finalizado todo el proyecto, cada uno hemos hecho una valoraci\'on de todo lo que ha supuesto el proyecto individualmente.
 
 \textbf{Ieltzu:} Personalmente ha sido una tarea que no me ha gustado mucho. He visto inecesaria la practica y para lo \'unico que me ha servido es para darme cuenta de lo dif\'icil que es implementar un clasificador propio. 
 
