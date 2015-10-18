@@ -107,7 +107,7 @@ public class Modelo {
 	    } catch (Exception e) {
 			e.printStackTrace(); System.exit(1);
 		}
-	    Escritor.getEscritor().hacerFicheroIBk("ficheros/EvaluationIBk.txt", evaluator, estimador, knnEzExhaustiboa, "Hold Out 70 30",true);
+	    Escritor.getEscritor().hacerFicheroIBk("ficheros/EvaluationIBk.txt", evaluator, estimador, knnEzExhaustiboa, "Hold Out 70 30",false);
 	    System.out.println("70 30 base");
 	   
 	    

@@ -160,9 +160,9 @@ public class NuestroModelo {
 		recall=100*(this.tP/(this.tP + this.fN));
 		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
 		fmeasure=(2*precision*recall)/(precision + recall); 
-		if (fm < fmeasure){
+		if (fm < accuracy){
 			Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(),this.getDistance(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure,(int)Math.floor(tP),(int)Math.floor(tN),(int)Math.floor(fP),(int)Math.floor(fN) , false);
-			return fmeasure;
+			return accuracy;
 		}else{
 			return fm;
 		}
