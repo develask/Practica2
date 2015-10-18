@@ -95,7 +95,7 @@ En esta pr\'actica hemos implementado 3 distintas distancias:
 
 En el espacio de Minkowski pueden distinguirse tres dimensiones espaciales ordinarias y una dimensión temporal adicional, de tal manera que todas juntas forman una 4-variedad y así representar al espacio-tiempo.
 
-El espacio-tiempo de Minkowski es una variedad lorentziana de curvatura nula e isomorfa a \mathcal{M}_0 = (\R^4, \boldsymbol \eta) donde el tensor métrico puede llegar a escribirse en un sistema de coordenadas cartesianas como:
+ El espacio-tiempo de Minkowski es una variedad lorentziana de curvatura nula e isomorfa a \mathcal{M}_0 = (\R^4, \boldsymbol \eta) donde el tensor métrico puede llegar a escribirse en un sistema de coordenadas cartesianas como:
 	\begin{equation}\label{minkowski}
 	\eta = -dx^0\otimes dx^0 + dx^1\otimes dx^1 + dx^2\otimes dx^2 + dx^3\otimes dx^3
 	\end{equation}
@@ -123,6 +123,67 @@ Adem\'as tenemos otros m\'etodos que ya hemos mencionado pero no les hemos dado 
 
 En esta secci\'on mostraremos los resultados que hemos obtenido de las ejecuciones anteriores.
 
+Resultados del clasificador Ibk:
+\begin{verbatim}
+
+******************************************************
+
+****Hold Out 70 30****
+
+******************************************************
+F-Measure Batazbestekoa: 0.7560923349427191
+K Maximoa: 25
+Distance Weighting: 1
+Revision: 10141
+Training Times: 212
+Nearest Neighbour Searh Algorithm: weka.core.neighboursearch.BallTree@4d591d15
+K Maximoa metodo ez exhaustiboarekin: 15
+Precision Batazbestekoa: 0.7621770668504911
+Recall Batazbestekoa: 0.7652582159624414
+ROC Area Batazbestekoa: 0.8079297245963913
+F-Measure V1: 0.8275862068965517
+F-Measure V2: 0.6323529411764706
+Recall V1: 0.8888888888888888
+Recall V2: 0.5512820512820513
+Precision V1: 0.7741935483870968
+Precision V2: 0.7413793103448276
+Correctly Classified Instances: 76.52582159624413
+=== Confusion Matrix ===
+
+   a   b   <-- classified as
+ 120  15 |   a = tested_negative
+  35  43 |   b = tested_positive
+
+******************************************************
+
+
+Resultados del clasificador creado por nosotros:
+
+
+******************************************************
+
+****Estimacion Nuestro modelo****
+
+******************************************************
+K Maximoa: 38
+Distance Weighting: NoDistance
+Distance Type: Minkowski
+Nearest Neighbour Searh Algorithm: 1
+---------------------------------
+    Precision = 38.61408684976535    
+    Recall = 50.64933378353808          
+    Accuracy = 0.5283013528046641      
+    F-Measure = 43.82036358733511     
+---------------------------------
+------------Matriz De Confusiï¿½n---------------------
+----------------------------------
+---|---------|-------------------
+---|-TP=39---|-FP=62--------
+---|---------|-------------------
+---|-TN=73---|-FN=38--------
+---|---------|-------------------
+\end{verbatim}
+
 \section{Conclusiones}
 
 Realizar un clasificador desde cero ha sido una tarea complicada a que nos hemos basado en el modelo del IBk, y le hemos ajustado el pseudoc\'odigo que ten\'iamos. Ha sido una tarea entretenida y muy din\'amica pero muy costosa. Como conclusi\'on tenemos que decir que no merece la pena crear un modelo propio habiendo ya el IBk.   
@@ -140,6 +201,6 @@ Una vez finalizado todo el proyecto, cada uno hemos hecho una valoraci\'on de to
 
 \bibliographystyle{plainnat}
 \bibliography{./bibliography.bib}
-
+https://es.wikipedia.org/wiki/Espacio-tiempo_de_Minkowski
 \end{document}
 

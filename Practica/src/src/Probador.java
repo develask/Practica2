@@ -28,7 +28,7 @@ public class Probador {
 		 String[] paramsM = new String [2];
 		 paramsM[0] = "ficheros/preTrain.arff";
 		 paramsM[1] = "ficheros/preDev.arff";
-		 //Modelo.main(paramsM);
+		 Modelo.main(paramsM);
 
 		 NuestroModelo nm;
 		 double fm = 0;

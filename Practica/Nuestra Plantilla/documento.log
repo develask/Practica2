@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.30)  16 OCT 2015 23:40
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (MiKTeX 2.9) (preloaded format=pdflatex 2015.9.30)  18 OCT 2015 16:37
 entering extended mode
 **documento.tex
 (documento.tex
@@ -333,24 +333,45 @@ l.102 \end{enumerate}
                      
 Things are pretty mixed up, but I think the worst is over.
 
+[2]
+Missing character: There is no ï in font cmtt10!
+Missing character: There is no ¿ in font cmtt10!
+Missing character: There is no ½ in font cmtt10!
 Missing character: There is no é in font cmr10!
-(documento.bbl
+ (documento.bbl
 
 Package natbib Warning: Empty `thebibliography' environment on input line 8.
 
-) [2] [3] (documento.aux)
+)
+! Missing $ inserted.
+<inserted text> 
+                $
+l.204 ...s://es.wikipedia.org/wiki/Espacio-tiempo_
+                                                  de_Minkowski
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.205 \end{document}
+                    
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+[3] (documento.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 2339 strings out of 493673
- 30373 string characters out of 3143147
+ 2340 strings out of 493673
+ 30386 string characters out of 3143147
  94429 words of memory out of 3000000
  5678 multiletter control sequences out of 15000+200000
- 12122 words of font info for 47 fonts, out of 3000000 for 9000
+ 12290 words of font info for 48 fonts, out of 3000000 for 9000
  1025 hyphenation exceptions out of 8191
- 24i,7n,32p,544b,197s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 24i,7n,32p,544b,248s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx10.pfb>
 <C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx12.pfb><C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmex10.pfb><C:/
@@ -363,10 +384,11 @@ es (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr12.pfb><C:/Program Files
 6)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr5.pfb><C:/Program Files (x86)/M
 iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTe
 X 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 
-2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on documento.pdf (3 pages, 143510 bytes).
+2.9/fonts/type1/public/amsfonts/cm/cmtt10.pfb><C:/Program Files (x86)/MiKTeX 2.
+9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on documento.pdf (3 pages, 165240 bytes).
 PDF statistics:
- 64 PDF objects out of 1000 (max. 8388607)
+ 68 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
