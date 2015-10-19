@@ -118,7 +118,7 @@ public class NuestroModelo {
 		
 		//primera linea referencia instancia; segunda linea distancia
 		for(int j=0;j<instancias.numInstances();j++){
-			distancia=this.calcularDistancia(instancias.get(j),instancia);
+			distancia = this.distanceMethod.calcularDistancia(instancias.get(j), instancia);
 			lista[j][0]=j;
 			lista[j][1]=distancia;
 		}
@@ -176,14 +176,6 @@ public class NuestroModelo {
 			return 1/distancia;
 		}
 		return distancia;
-	}
-	private double calcularDistancia(Instance instancia,Instance instanciaaclasificar) {
-		this.distanceMethod.init();
-		int numAtr = instanciaaclasificar.numAttributes();
-		for(int i=0;i<numAtr;i++){
-			this.distanceMethod.setAtributeDist((double)instancia.value(i), (double)instanciaaclasificar.value(i));
-		}
-		return this.distanceMethod.getDistance();
 	}
 
 	public double clasificarInstancia(Instance NoClasificada,Instances instancias){
