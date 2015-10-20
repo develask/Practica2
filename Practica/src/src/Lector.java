@@ -34,6 +34,7 @@ public class Lector {
 			fi=new FileReader(path);
 	    }catch (FileNotFoundException e) {
 			System.out.println("ERROR: Revisa el path del fichero:"+path);
+			return null;
 		}         
 	    // 1.3. Load the instances
 		Instances data=null;
@@ -41,12 +42,13 @@ public class Lector {
 			data = new Instances(fi);
 		} catch (IOException e) {
 			System.out.println("ERROR: Revisa el contenido del fichero: "+path);
+			return null;
 		}
 	  	// 1.4. Close the file
 		try {
 			fi.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			return null;
 		}
 		// 1.6. Specify which attribute will be used as the class: the last one, in this case 
 		data.setClassIndex(data.numAttributes()-1);      

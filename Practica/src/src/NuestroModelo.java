@@ -1,15 +1,15 @@
 package src;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Enumeration;
 
 import distance.*;
 import weka.core.Instance;
 import weka.core.Instances;
 
-public class NuestroModelo { 
+public class NuestroModelo implements Modelo { 
 	
 	private double[][] lista;
     /**
@@ -19,7 +19,6 @@ public class NuestroModelo {
 	/**
 	 * 1- "No distance weighting"
 	 * 2- "Weight by 1/distance"
-	 * 3- "Weight by 1-distance"
 	 */
 	public enum DistanceWight {
 		NoDistance, OneDivDistance
@@ -27,25 +26,13 @@ public class NuestroModelo {
 	
 	protected DistanceWight distanceWeighting;
 	
-	public enum DistanceType {
-		Manhattan, Euclidea, Minkowski
-	};
-	private DistanceType distance;
+	private int distance;
 	private Minkowski distanceMethod;
-    /**
-     * 1- KNN con rechazo
-     * 2- Distancia media
-     * 3- Distancia Minima
-     * 4- Pesado de casos seleccionados
-     * 5- Pesado de variable sadfasdfsaf
-     * */
-	protected int NNSearch;
 	
 	
-	private double tP;
-	private double tN;
-	private double fP;
-	private double fN;
+	private int[][] matrizConf;
+	private Enumeration<Object> clases;
+	private Instances instanciasBuenas;
 	
 	/**
 	 * Constructor para crear el modelo KNN.
@@ -53,35 +40,22 @@ public class NuestroModelo {
 	 * @param distance Tipo de distancia a analizar: [(1: Manhattan), (2: Euclídea), (3: Minkowski)]
 	 * @param searchAlgoritm Algoritmo de busqueda: [1:5]
 	 */
-	public NuestroModelo(int KNN, DistanceWight distanceW, DistanceType distanceT , int searchAlgoritm){
+	public NuestroModelo(int KNN, DistanceWight distanceW, int distanceT){
 	    this.setKNN(KNN);
 	    this.setDistanceWeighting(distanceW);
 	    this.setDistance(distanceT);
-	    this.setNearestNeighbourSearchAlgorithm(searchAlgoritm);
-	    this.fN=0.001;
-	    this.fP=0.001;
-	    this.tN=0.001;
-	    this.tP=0.001;
 	}
 	
-	public DistanceType getDistance() {
+	public int getDistance() {
 		return distance;
 	}
 
-	public void setDistance(DistanceType distance) {
+	public void setDistance(int distance) {
 		this.distance = distance;
-		switch (distance) {
-		case Manhattan:
+		if (distance >= 1){
+			this.distanceMethod = new Minkowski(distance);
+		}else{
 			this.distanceMethod = new Minkowski(1);
-			break;
-		case Euclidea:
-			this.distanceMethod = new Minkowski(2);
-			break;
-		case Minkowski:
-			this.distanceMethod = new Minkowski(3);
-			break;
-		default:
-			break;
 		}
 	}
 
@@ -100,72 +74,151 @@ public class NuestroModelo {
 	public void setKNN(int k) {
 		if (k<1) k = 1;
 		this.kNN=k;
-	}
-	
-	public int getNearestNeighbourSearchAlgorithm() {
-		return NNSearch;
-	}
-	
-	public void setNearestNeighbourSearchAlgorithm(int i) {
-		if (i<1 || i>5) i = 1;
-		NNSearch = i;
-	}	 
+	} 
    	
-  
-	public void prepararInstancias(Instances instancias, Instance instancia){
-		double distancia = 0.00;
-		lista = new double[instancias.numInstances()][2];
-		
-		//primera linea referencia instancia; segunda linea distancia
-		for(int j=0;j<instancias.numInstances();j++){
-			distancia = this.distanceMethod.calcularDistancia(instancias.get(j), instancia);
-			lista[j][0]=j;
-			lista[j][1]=distancia;
-		}
-		Collections.sort(Arrays.asList(lista), new Comparator<double[]>() {
-
-			@Override
-			public int compare(double[] o1, double[] o2) {
-				return Double.compare(o1[1], o2[1]);
-			}
-		});
-	}
 	public void crearMatrixConfusion(Instances noclasf, Instances clasf){
-		// 1 sera t 0 sera f
-		for (int i = 0; i < clasf.numInstances(); i++) {
-			double clase = noclasf.get(i).classValue();
-			//System.out.println(clase+"-"+clasf.get(i).classValue());
-			//System.out.println(clasf.classAttribute().value((int)clase));
-			if(clasf.get(i).classValue()==noclasf.get(i).classValue() &&  clase== 1.0){
-				tP++;
-			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 1.0){
-				tN++;
-			}else if(clasf.get(i).classValue()==noclasf.get(i).classValue() && clase== 0.0){
-				fP++;
-			}else if(clasf.get(i).classValue()!=noclasf.get(i).classValue() && clase== 0.0){
-				fN++;
+		this.clases = noclasf.classAttribute().enumerateValues();
+		this.matrizConf = new int[noclasf.classAttribute().numValues()][noclasf.classAttribute().numValues()];
+		for (int f = 0; f < this.matrizConf.length; f++) {
+			for (int i = 0; i < this.matrizConf.length; i++) {
+				this.matrizConf[f][i] = 0;
 			}
 		}
-		
-		System.out.println("Matríz realizada con Éxito");
+		for (int i = 0; i < clasf.numInstances(); i++) {
+			int claseNC = (int) noclasf.get(i).classValue();
+			int claseC = (int) clasf.get(i).classValue();
+			this.matrizConf[claseC][claseNC]++;
+		}
+	}
+	public double precision(int classIndex) {
+
+	    double correct = 0, total = 0;
+	    for (int i = 0; i < this.matrizConf.length; i++) {
+	      if (i == classIndex) {
+	        correct += this.matrizConf[i][classIndex];
+	      }
+	      total += this.matrizConf[i][classIndex];
+	    }
+	    if (total == 0) {
+	      return 0;
+	    }
+	    return correct / total;
+	  }
+	
+	public double weightedPrecision() {
+	    double[] classCounts = new double[this.matrizConf.length];
+	    double classCountSum = 0;
+
+	    for (int i = 0; i < this.matrizConf.length; i++) {
+	      for (int j = 0; j < this.matrizConf.length; j++) {
+	        classCounts[i] += this.matrizConf[i][j];
+	      }
+	      classCountSum += classCounts[i];
+	    }
+
+	    double precisionTotal = 0;
+	    for (int i = 0; i < this.matrizConf.length; i++) {
+	      double temp = this.precision(i);
+	      precisionTotal += (temp * classCounts[i]);
+	    }
+
+	    return precisionTotal / classCountSum;
+	  }
+	
+	public double recall(int classIndex) {
+
+	    double correct = 0, total = 0;
+	    for (int j = 0; j < this.matrizConf.length; j++) {
+	      if (j == classIndex) {
+	        correct += this.matrizConf[classIndex][j];
+	      }
+	      total += this.matrizConf[classIndex][j];
+	    }
+	    if (total == 0) {
+	      return 0;
+	    }
+	    return correct / total;
 	}
 	
-	public double calcularMediciones(double fm){
-		double recall;
-		double accuracy;
-		double precision;
-		double fmeasure;
-		
-		precision=100*(this.tP/(this.tP + this.fP));
-		recall=100*(this.tP/(this.tP + this.fN));
-		accuracy=(this.tP + this.tN) / (this.tP + this.tN + this.fP + this.fN);
-		fmeasure=(2*precision*recall)/(precision + recall); 
-		if (fm < accuracy){
-			Escritor.getEscritor().hacerFicheroNuestroModelo("ficheros/EvaluationNuestroModelo.txt",this.getKNN(),this.getDistanceWeighting(),this.getDistance(), this.getNearestNeighbourSearchAlgorithm(), precision, recall, accuracy, fmeasure,(int)Math.floor(tP),(int)Math.floor(tN),(int)Math.floor(fP),(int)Math.floor(fN) , false);
-			return accuracy;
-		}else{
-			return fm;
+	public double weightedRecall() {
+	    double[] classCounts = new double[this.matrizConf.length];
+	    double classCountSum = 0;
+
+	    for (int i = 0; i < this.matrizConf.length; i++) {
+	      for (int j = 0; j < this.matrizConf.length; j++) {
+	        classCounts[i] += this.matrizConf[i][j];
+	      }
+	      classCountSum += classCounts[i];
+	    }
+
+	    double truePosTotal = 0;
+	    for (int i = 0; i < this.matrizConf.length; i++) {
+	    	double temp = this.recall(i);
+	      truePosTotal += (temp * classCounts[i]);
+	    }
+
+	    return truePosTotal / classCountSum;
+	  }
+	
+	public double accuracy(){
+		double count=0;
+		double correct=0;
+		for (int i = 0; i < this.matrizConf.length; i++) {
+			for (int j = 0; j < this.matrizConf.length; j++) {
+				if (i==j) correct += this.matrizConf[i][j];
+				count+=this.matrizConf[i][j];
+			}
 		}
+		return correct/count;
+	}
+	
+	public String calcularMediciones(){
+		double recall = this.weightedRecall();
+		double accuracy = this.accuracy();
+		double precision = this.weightedPrecision();
+		
+		String result = "";
+		result += ("\n**************************************\n");
+		result += ("\n****Estimacion Nuestro modelo k-NN****\n");
+		result += ("\n**************************************\n");
+		result += ("K: " + kNN+"\n");
+		result += ("Distance Weighting: " + this.getDistanceWeighting()+"\n");
+		result += ("Distance Type (Minkowski): " + this.getDistance()+"\n");
+		result += ("+------------------------------------+\n");
+		result += ("|   Precision = "+precision+"   |\n");
+		result += ("|   Recall    = "+recall+"   |\n");
+		result += ("|   Accuracy  = "+accuracy+"   |\n");
+		result += ("+------------------------------------+\n");
+		result += ("------------Matriz De Confusión-------\n");
+		result += ("\n");
+		result += "\t";
+		for (int i = 0; i < this.matrizConf.length; i++) {
+			result +=("+-------");
+		}
+		result+="+\n";
+		result += "\t";
+		for (int i = 0; i < this.matrizConf.length; i++) {
+			result +=("| "+(char)(97+i) + "\t");
+		}
+		result+="|  <-- Clasificado como\n";
+		result += "\t";
+		for (int i = 0; i < this.matrizConf.length; i++) {
+			result +=("+-------");
+		}
+		result+="+\n";
+		for (int f = 0; f < this.matrizConf.length; f++) {
+			result += "\t";
+			for (int i = 0; i < this.matrizConf.length; i++) {
+				result +=("| "+this.matrizConf[f][i] + "\t");
+			}
+			result+="| "+(char)(97+f)+" = "+this.clases.nextElement()+"\n";
+			result += "\t";
+			for (int i = 0; i < this.matrizConf.length; i++) {
+				result +=("+-------");
+			}
+			result+="+\n";
+		}
+		return result;
 	}
 	private double calcularPeso(double distancia){
 		
@@ -173,54 +226,33 @@ public class NuestroModelo {
 		case NoDistance:
 			return distancia;
 		case OneDivDistance:
-			return 1/distancia;
+			return 1.0/distancia;
 		}
 		return distancia;
 	}
 
-	public double clasificarInstancia(Instance NoClasificada,Instances instancias){
+	public double clasificarInstancia(Instance NoClasificada){
 		int numerovecinos = this.getKNN();
-		int metodo = this.getNearestNeighbourSearchAlgorithm();
 		//recorreremos el array hasta el numero de k en instancias
-		if (metodo == 1){
-			double[] mediasPeso = new double[instancias.numClasses()];
-			Double[][] temp= new Double[instancias.numClasses()][2];
-			for(int i=0;i<temp.length;i++){
-				for (int j = 0; j < temp[i].length; j++) {
-					temp[i][j]=0.00;
-				}
-			}
-			for(int i=0;i<numerovecinos;i++){
-				temp[(int)instancias.get((int)lista[i][0]).classValue()][0]+=calcularPeso(lista[i][1]);
-				temp[(int)instancias.get((int)lista[i][0]).classValue()][1]++;
-			}
-			for(int i=0;i<instancias.numClasses();i++){
-				if(temp[i][1]>0){
-					mediasPeso[i]=temp[i][0]/temp[i][1];
-				}else{
-					mediasPeso[i]=-1;
-				}
-			}
-			return conseguirClase(mediasPeso);//==0.0?1.0:0.0;
-		}else if(metodo == 2){
-			for(int i=1;i<=numerovecinos;i++){
-				
-			}
-		}else if(metodo == 3){
-			for(int i=1;i<=numerovecinos;i++){
-				
-			}
-		}else if(metodo == 4){
-			for(int i=1;i<=numerovecinos;i++){
-				
-			}
-		}else if(metodo == 5){
-			for(int i=1;i<=numerovecinos;i++){
-				
+		double[] mediasPeso = new double[this.instanciasBuenas.numClasses()];
+		Double[][] temp= new Double[this.instanciasBuenas.numClasses()][2];
+		for(int i=0;i<temp.length;i++){
+			for (int j = 0; j < temp[i].length; j++) {
+				temp[i][j]=0.00;
 			}
 		}
-		//devolveremos las intancias clasificadas : solaparemos las clases con la calculada en el metodo. 
-		return 0.00;
+		for(int i=0;i<numerovecinos;i++){
+			temp[(int)this.instanciasBuenas.get((int)lista[i][0]).classValue()][0]+=calcularPeso(lista[i][1]);
+			temp[(int)this.instanciasBuenas.get((int)lista[i][0]).classValue()][1]++;
+		}
+		for(int i=0;i<this.instanciasBuenas.numClasses();i++){
+			if(temp[i][1]>0){
+				mediasPeso[i]=temp[i][0]/temp[i][1];
+			}else{
+				mediasPeso[i]=-1;
+			}
+		}
+		return conseguirClase(mediasPeso);
 	}
 
 	private double conseguirClase(double[] mediasPeso) {
@@ -247,5 +279,38 @@ public class NuestroModelo {
 		}
 		return pos;
 		
+	}
+	public void buildClasifier(Instances instancias){
+		this.instanciasBuenas = instancias;
+	}
+
+	public void prepararInstancias(Instance instancia) {
+		double distancia = 0.00;
+		lista = new double[this.instanciasBuenas.numInstances()][2];
+		
+		//primera linea referencia instancia; segunda linea distancia
+		for(int j=0;j<this.instanciasBuenas.numInstances();j++){
+			distancia = this.distanceMethod.calcularDistancia(this.instanciasBuenas.get(j), instancia);
+			lista[j][0]=j;
+			lista[j][1]=distancia;
+		}
+		Collections.sort(Arrays.asList(lista), new Comparator<double[]>() {
+
+			@Override
+			public int compare(double[] o1, double[] o2) {
+				return Double.compare(o1[1], o2[1]);
+			}
+		});
+		
+	}
+
+	@Override
+	public void evaluarModelo(Instances instanciasAEvaluar) {
+		Instances copia = new Instances(instanciasAEvaluar, 0, instanciasAEvaluar.numInstances());
+		for (int i=0;i<copia.numInstances();i++) {
+			this.prepararInstancias(copia.get(i));
+			copia.get(i).setClassValue(this.clasificarInstancia(copia.get(i)));
+		}
+		this.crearMatrixConfusion(copia, instanciasAEvaluar);
 	}
 }	
